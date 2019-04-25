@@ -102,16 +102,7 @@ function displayBoard() {
 
 //current test in progress
 function currentTestPress() {
-  var arr2D = [
-    [1, 2, 3, 4],
-    [5, 6, 7, 8],
-    [9, 10, 11, 12],
-    [13, 14, 15, 16]
-  ];
-  console.log(arr2D[3][2]);
 
-  moveElement(boardArray[0][0], boardArray[0][1], boardArray, 0, 0);
-  displayBoard();
 }
 
 //for checking what's in the arrays
