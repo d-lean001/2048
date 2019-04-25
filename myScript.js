@@ -45,6 +45,13 @@ function upButtonPress() {
 function downButtonPress() {
   console.log("Down is pressed");
   document.getElementById("debugText").innerHTML = "Down is pressed";
+
+  for(var i = 3; i > 0; i--){
+    for(var j = 0; j < 4; j++){
+      moveElement(boardArray[i][j], boardArray[i-1][j], boardArray, i, j);
+    }
+  }
+  displayBoard();
 }
 
 function leftButtonPress() {
