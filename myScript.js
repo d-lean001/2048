@@ -57,6 +57,13 @@ function downButtonPress() {
 function leftButtonPress() {
   console.log("Left is pressed");
   document.getElementById("debugText").innerHTML = "Left is pressed";
+
+  for(var i = 0; i < 4; i++){
+    for(var j = 0; j < 3; j++){
+      moveElement(boardArray[i][j], boardArray[i][j+1], boardArray, i, j);
+    }
+  }
+  displayBoard();
 }
 
 function rightButtonPress() {
