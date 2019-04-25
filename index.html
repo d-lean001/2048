@@ -12,7 +12,7 @@
   <p>This will be a work in progress that hopefully works well in the future</p>
 
 
-  <br><br><br>
+  <br>
   <hr>
   <table id="gameBoard">
     <tr id="firstRow">
@@ -33,7 +33,7 @@
       <td>3,3</td>
       <td>3,4</td>
     </tr>
-    <tr id="forthRow">
+    <tr id="fourthRow">
       <td>4,1</td>
       <td>4,2</td>
       <td>4,3</td>
@@ -46,12 +46,16 @@
 
   <h2>Controls</h2>
 
-  <button>Up</button>
+  <button id="upButton" onclick="upButtonPress()">Up</button>
   <br>
-  <button>Left</button>
-  <button>Right</button>
+  <button id="leftButton" onclick="leftButtonPress()">Left</button>
+  <button id="rightButton" onclick="rightButtonPress()">Right</button>
   <br>
-  <button>Down</button>
+  <button id="downButton" onclick="downButtonPress()">Down</button>
+
+  <br><br>
+  <hr>
+  <p id="debugText">Used to debug</p>
 
 
 </body>
