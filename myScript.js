@@ -1,61 +1,62 @@
 //Rows
 var rowOne = [
-  document.getElementById("uull").innerHTML,
-  document.getElementById("uul").innerHTML,
-  document.getElementById("uur").innerHTML,
-  document.getElementById("uurr").innerHTML
+  Number(document.getElementById("uull").innerHTML),
+  Number(document.getElementById("uul").innerHTML),
+  Number(document.getElementById("uur").innerHTML),
+  Number(document.getElementById("uurr").innerHTML)
 ]
 
 var rowTwo = [
-  document.getElementById("ull").innerHTML,
-  document.getElementById("ul").innerHTML,
-  document.getElementById("ur").innerHTML,
-  document.getElementById("urr").innerHTML
+  Number(document.getElementById("ull").innerHTML),
+  Number(document.getElementById("ul").innerHTML),
+  Number(document.getElementById("ur").innerHTML),
+  Number(document.getElementById("urr").innerHTML)
 ]
 
 var rowThree = [
-  document.getElementById("dll").innerHTML,
-  document.getElementById("dl").innerHTML,
-  document.getElementById("dr").innerHTML,
-  document.getElementById("drr").innerHTML
+  Number(document.getElementById("dll").innerHTML),
+  Number(document.getElementById("dl").innerHTML),
+  Number(document.getElementById("dr").innerHTML),
+  Number(document.getElementById("drr").innerHTML)
 ]
 
 var rowFour = [
-  document.getElementById("ddll").innerHTML,
-  document.getElementById("ddl").innerHTML,
-  document.getElementById("ddr").innerHTML,
-  document.getElementById("ddrr").innerHTML
+  Number(document.getElementById("ddll").innerHTML),
+  Number(document.getElementById("ddl").innerHTML),
+  Number(document.getElementById("ddr").innerHTML),
+  Number(document.getElementById("ddrr").innerHTML)
 ]
 
 //Columns
 var colOne = [
-  document.getElementById("uull").innerHTML,
-  document.getElementById("ull").innerHTML,
-  document.getElementById("dll").innerHTML,
-  document.getElementById("ddll").innerHTML
+  Number(document.getElementById("uull").innerHTML),
+  Number(document.getElementById("ull").innerHTML),
+  Number(document.getElementById("dll").innerHTML),
+  Number(document.getElementById("ddll").innerHTML)
 ]
 
 var colTwo = [
-  document.getElementById("uul").innerHTML,
-  document.getElementById("ul").innerHTML,
-  document.getElementById("dl").innerHTML,
-  document.getElementById("ddl").innerHTML
+  Number(document.getElementById("uul").innerHTML),
+  Number(document.getElementById("ul").innerHTML),
+  Number(document.getElementById("dl").innerHTML),
+  Number(document.getElementById("ddl").innerHTML)
 ]
 
 var colThree = [
-  document.getElementById("uur").innerHTML,
-  document.getElementById("ur").innerHTML,
-  document.getElementById("dr").innerHTML,
-  document.getElementById("ddr").innerHTML
+  Number(document.getElementById("uur").innerHTML),
+  Number(document.getElementById("ur").innerHTML),
+  Number(document.getElementById("dr").innerHTML),
+  Number(document.getElementById("ddr").innerHTML)
 ]
 
 var colFour = [
-  document.getElementById("uurr").innerHTML,
-  document.getElementById("urr").innerHTML,
-  document.getElementById("drr").innerHTML,
-  document.getElementById("ddrr").innerHTML
+  Number(document.getElementById("uurr").innerHTML),
+  Number(document.getElementById("urr").innerHTML),
+  Number(document.getElementById("drr").innerHTML),
+  Number(document.getElementById("ddrr").innerHTML)
 ]
 
+//handles button presses
 function upButtonPress() {
   console.log("Up is pressed");
   document.getElementById("debugText").innerHTML = "Up is pressed";
@@ -76,6 +77,19 @@ function rightButtonPress() {
   document.getElementById("debugText").innerHTML = "Right is pressed";
 }
 
+function moveElement(increasingElement, element, array, increasingElementPosition, elementPosition) {
+  array[increasingElementPosition] = increasingElement + element;
+  return;
+}
+
+function currentTestPress() {
+  console.log("Testing = ");
+  console.log("Before = ", rowOne[0], rowOne[1]);
+  moveElement(rowOne[0], rowOne[1], rowOne, 0,1);
+  console.log("After = ", rowOne[0], rowOne[1]);
+}
+
+//for checking what's in the arrays
 function boardButtonPress() {
   document.getElementById("debugText").innerHTML = "look at console log to see row and column array values";
   console.log("-------Rows Array------");
@@ -85,8 +99,8 @@ function boardButtonPress() {
   console.log(rowFour[0], rowFour[1], rowFour[2], rowFour[3]);
 
   console.log("-------Columns Array------");
-  console.log(colOne[0], colOne[1], colOne[2], colOne[3]);
-  console.log(colTwo[0], colTwo[1], colTwo[2], colTwo[3]);
-  console.log(colThree[0], colThree[1], colThree[2], colThree[3]);
-  console.log(colFour[0], colFour[1], colFour[2], colFour[3]);
+  console.log(colOne[0], colTwo[0], colThree[0], colFour[0]);
+  console.log(colOne[1], colTwo[1], colThree[1], colFour[1]);
+  console.log(colOne[2], colTwo[2], colThree[2], colFour[2]);
+  console.log(colOne[3], colTwo[3], colThree[3], colFour[3]);
 }
