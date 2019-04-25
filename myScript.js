@@ -112,6 +112,15 @@ function displayBoard() {
   document.getElementById("ddrr").innerHTML = boardArray[3][3];
 }
 
+function clearBoard() {
+  for(var i = 0; i < 4; i++){
+    for(var j = 0; j < 4; j++){
+      boardArray[i][j] = 0;
+    }
+  }
+  displayBoard();
+}
+
 //current test in progress
 function currentTestPress() {
 
