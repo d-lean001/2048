@@ -37,11 +37,11 @@ function deleteElement(array, row, col){
 function upButtonPress() {
   console.log("Up is pressed");
 
-  for(var i = 0; i < 3; i++){
+  for(var i = 3; i > 0; i--){
     for(var j = 0; j < 4; j++){
-      if(boardArray[i][j] === boardArray[i+1][j] || boardArray[i][j] === 0){
-        moveElement(boardArray[i][j], boardArray[i+1][j], boardArray, i, j);
-        deleteElement(boardArray, i+1, j);
+      if(boardArray[i][j] === boardArray[i-1][j] || boardArray[i-1][j] === 0){
+        moveElement(boardArray[i-1][j], boardArray[i][j], boardArray, i-1, j);
+        deleteElement(boardArray, i, j);
       }
     }
   }
@@ -51,11 +51,11 @@ function upButtonPress() {
 function downButtonPress() {
   console.log("Down is pressed");
 
-  for(var i = 3; i > 0; i--){
+  for(var i = 0; i < 3; i++){
     for(var j = 0; j < 4; j++){
-      if(boardArray[i][j] === boardArray[i-1][j] || boardArray[i][j] === 0){
-        moveElement(boardArray[i][j], boardArray[i-1][j], boardArray, i, j);
-        deleteElement(boardArray, i-1, j);
+      if(boardArray[i][j] === boardArray[i+1][j] || boardArray[i+1][j] === 0){
+        moveElement(boardArray[i+1][j], boardArray[i][j], boardArray, i+1, j);
+        deleteElement(boardArray, i, j);
       }
     }
   }
@@ -66,10 +66,10 @@ function leftButtonPress() {
   console.log("Left is pressed");
 
   for(var i = 0; i < 4; i++){
-    for(var j = 0; j < 3; j++){
-      if(boardArray[i][j] === boardArray[i][j+1] || boardArray[i][j] === 0){
-        moveElement(boardArray[i][j], boardArray[i][j+1], boardArray, i, j);
-        deleteElement(boardArray, i, j+1);
+    for(var j = 3; j > 0; j--){
+      if(boardArray[i][j] === boardArray[i][j-1] || boardArray[i][j-1] === 0){
+        moveElement(boardArray[i][j-1], boardArray[i][j], boardArray, i, j-1);
+        deleteElement(boardArray, i, j);
       }
     }
   }
@@ -80,10 +80,10 @@ function rightButtonPress() {
   console.log("Right is pressed");
 
   for(var i = 0; i < 4; i++){
-    for(var j = 3; j > 0; j--){
-      if(boardArray[i][j] === boardArray[i][j-1] || boardArray[i][j] === 0){
-        moveElement(boardArray[i][j], boardArray[i][j-1], boardArray, i, j);
-        deleteElement(boardArray, i, j-1);
+    for(var j = 0; j < 3; j++){
+      if(boardArray[i][j] === boardArray[i][j+1] || boardArray[i][j+1] === 0){
+        moveElement(boardArray[i][j+1], boardArray[i][j], boardArray, i, j+1);
+        deleteElement(boardArray, i, j);
       }
     }
   }
