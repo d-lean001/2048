@@ -83,7 +83,7 @@ function moveElement(increasingElement, element, array, increasingElementPositio
 }
 
 function currentTestPress() {
-  console.log("Testing = ");
+  console.log("Testing = moving rowOne[1] into rowOne[0]");
   console.log("Before = ", rowOne[0], rowOne[1]);
   moveElement(rowOne[0], rowOne[1], rowOne, 0,1);
   console.log("After = ", rowOne[0], rowOne[1]);
