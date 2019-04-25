@@ -1,4 +1,3 @@
-//Rows
 var boardArray = [
   [
     Number(document.getElementById("uull").innerHTML),
@@ -26,9 +25,21 @@ var boardArray = [
   ]
 ];
 
+function moveElement(increasingElement, element, array, newElementRow, newElementCol) {
+  array[newElementRow][newElementCol] = increasingElement + element;
+  return;
+}
+
 function upButtonPress() {
   console.log("Up is pressed");
   document.getElementById("debugText").innerHTML = "Up is pressed";
+
+  for(var i = 0; i < 3; i++){
+    for(var j = 0; j < 4; j++){
+      moveElement(boardArray[i][j], boardArray[i+1][j], boardArray, i, j);
+    }
+  }
+  displayBoard();
 }
 
 function downButtonPress() {
@@ -44,11 +55,6 @@ function leftButtonPress() {
 function rightButtonPress() {
   console.log("Right is pressed");
   document.getElementById("debugText").innerHTML = "Right is pressed";
-}
-
-function moveElement(increasingElement, element, array, newElementRow, newElementCol) {
-  array[newElementRow][newElementCol] = increasingElement + element;
-  return;
 }
 
 function displayBoard() {
