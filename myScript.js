@@ -1,3 +1,12 @@
+/*
+Still to do:
+1) fix bug with following example... all numbers on same row are the same, go
+  left, instead of having 2 numbers on the far 2 left spots that are only a
+  combination of 2 of the numbers, displaying only 1 number that is a
+  combination of all 4.
+2) implement pressing arrow keys instead of buttons on the screen. maybe have both
+*/
+
 var win = 0;
 var loss = 0;
 var gameLost = false;
