@@ -60,6 +60,7 @@ var colFour = [
 function upButtonPress() {
   console.log("Up is pressed");
   document.getElementById("debugText").innerHTML = "Up is pressed";
+
 }
 
 function downButtonPress() {
@@ -82,11 +83,34 @@ function moveElement(increasingElement, element, array, increasingElementPositio
   return;
 }
 
+function displayBoard() {
+  document.getElementById("uull").innerHTML = rowOne[0];
+  document.getElementById("uul").innerHTML = rowOne[1];
+  document.getElementById("uur").innerHTML = rowOne[2];
+  document.getElementById("uurr").innerHTML = rowOne[3];
+
+  document.getElementById("ull").innerHTML = rowTwo[0];
+  document.getElementById("ul").innerHTML = rowTwo[1];
+  document.getElementById("ur").innerHTML = rowTwo[2];
+  document.getElementById("urr").innerHTML = rowTwo[3];
+
+  document.getElementById("dll").innerHTML = rowThree[0];
+  document.getElementById("dl").innerHTML = rowThree[1];
+  document.getElementById("dr").innerHTML = rowThree[2];
+  document.getElementById("drr").innerHTML = rowThree[3];
+
+  document.getElementById("ddll").innerHTML = rowFour[0];
+  document.getElementById("ddl").innerHTML = rowFour[1];
+  document.getElementById("ddr").innerHTML = rowFour[2];
+  document.getElementById("ddrr").innerHTML = rowFour[3];
+}
+
 function currentTestPress() {
-  console.log("Testing = moving rowOne[1] into rowOne[0]");
+  console.log("Testing = moving rowOne[1] into rowOne[0]. Then changing the board on the screen");
   console.log("Before = ", rowOne[0], rowOne[1]);
   moveElement(rowOne[0], rowOne[1], rowOne, 0,1);
   console.log("After = ", rowOne[0], rowOne[1]);
+  displayBoard();
 }
 
 //for checking what's in the arrays
