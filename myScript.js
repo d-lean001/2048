@@ -42,23 +42,23 @@ var boardArray = [
 
 document.onkeydown = function(key) {
   if(key.keyCode == 37) {
-    console.log("Left", key.keyCode)
+    console.log("Left arrow", key.keyCode)
     leftButtonPress();
   }
   else if(key.keyCode == 38) {
-    console.log("Up", key.keyCode);
+    console.log("Up arrow", key.keyCode);
     upButtonPress();
   }
   else if(key.keyCode == 39) {
-    console.log("Right", key.keyCode);
+    console.log("Right arrow", key.keyCode);
     rightButtonPress();
   }
   else if(key.keyCode == 40) {
-    console.log("Down", key.keyCode);
+    console.log("Down arrow", key.keyCode);
     downButtonPress();
   }
   else {
-    console.log("other key", key.keyCode)
+    console.log("other key pressed", key.keyCode)
   }
 }
 
@@ -85,7 +85,6 @@ function newElement() {
   console.log("new number = ", newElementNum);
 
   boardArray[newRow][newCol] = newElementNum;
-  displayBoard();
 }
 
 function displayBoard() {
@@ -108,6 +107,12 @@ function displayBoard() {
   document.getElementById("ddl").innerHTML = boardArray[3][1];
   document.getElementById("ddr").innerHTML = boardArray[3][2];
   document.getElementById("ddrr").innerHTML = boardArray[3][3];
+
+  console.log("full board array:");
+  console.log(boardArray[0]);
+  console.log(boardArray[1]);
+  console.log(boardArray[2]);
+  console.log(boardArray[3]);
 }
 
 function clearBoard() {
@@ -234,8 +239,12 @@ function rightButtonPress() {
   }
 }
 
-//current test in progress
 
+
+
+
+//current test in progress
+/* recursive up button press... not really sure if this is better than normal.
 function recUpButtonPress(currentRow, currentCol, currentElement) {
   console.log("currentRow = ", currentRow, "...currentCol = ", currentCol, "...currentElement = ", currentElement);
   if(currentRow === 0) {
@@ -262,6 +271,8 @@ function recUpButtonPress(currentRow, currentCol, currentElement) {
   }
 }
 
+
+
 function currentTestPress() {
   //document.getElementById("currentTest").innerHTML = "No test being performed.";
   console.log("Testing recursive up button press");
@@ -271,7 +282,19 @@ function currentTestPress() {
       displayBoard();
     }
   }
+}
+*/
+var objectArr = [
+  [{value:2, combined:false}, {value:4, combined:false}],
+  [{value:8, combined:true}, {value:16, combined:true}]
+];
 
+function currentTestPress() {
+  //document.getElementById("currentTest").innerHTML = "No test being performed.";
+  console.log("obejectArr[0][0] value = ", objectArr[0][0].value);
+  console.log("obejectArr[0][0] combined = ", objectArr[0][0].combined);
+  console.log("obejectArr[1][0] value = ", objectArr[1][0].value);
+  console.log("obejectArr[1][0] combined = ", objectArr[1][0].combined);
 
 }
 
