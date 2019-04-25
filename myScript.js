@@ -30,13 +30,23 @@ function moveElement(increasingElement, element, array, newElementRow, newElemen
   return;
 }
 
+function deleteElement(array, row, col){
+  array[row][col] = 0;
+}
+
 function upButtonPress() {
   console.log("Up is pressed");
-  document.getElementById("debugText").innerHTML = "Up is pressed";
 
   for(var i = 0; i < 3; i++){
     for(var j = 0; j < 4; j++){
-      moveElement(boardArray[i][j], boardArray[i+1][j], boardArray, i, j);
+      if(boardArray[i][j] === boardArray[i+1][j]){
+        moveElement(boardArray[i][j], boardArray[i+1][j], boardArray, i, j);
+        deleteElement(boardArray, i+1, j);
+      }
+      else if(boardArray[i][j] === 0){
+        moveElement(boardArray[i][j], boardArray[i+1][j], boardArray, i, j);
+        deleteElement(boardArray, i+1, j);
+      }
     }
   }
   displayBoard();
@@ -44,7 +54,6 @@ function upButtonPress() {
 
 function downButtonPress() {
   console.log("Down is pressed");
-  document.getElementById("debugText").innerHTML = "Down is pressed";
 
   for(var i = 3; i > 0; i--){
     for(var j = 0; j < 4; j++){
@@ -56,7 +65,6 @@ function downButtonPress() {
 
 function leftButtonPress() {
   console.log("Left is pressed");
-  document.getElementById("debugText").innerHTML = "Left is pressed";
 
   for(var i = 0; i < 4; i++){
     for(var j = 0; j < 3; j++){
@@ -68,7 +76,6 @@ function leftButtonPress() {
 
 function rightButtonPress() {
   console.log("Right is pressed");
-  document.getElementById("debugText").innerHTML = "Right is pressed";
 
   for(var i = 0; i < 4; i++){
     for(var j = 3; j > 0; j--){
@@ -107,7 +114,6 @@ function currentTestPress() {
 
 //for checking what's in the arrays
 function boardButtonPress() {
-  document.getElementById("debugText").innerHTML = "Look at console to see what's on the boardArray";
   console.log(boardArray[0][0], boardArray[0][1], boardArray[0][2], boardArray[0][3]);
   console.log(boardArray[1][0], boardArray[1][1], boardArray[1][2], boardArray[1][3]);
   console.log(boardArray[2][0], boardArray[2][1], boardArray[2][2], boardArray[2][3]);
