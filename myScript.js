@@ -4,7 +4,6 @@ Still to do:
   left, instead of having 2 numbers on the far 2 left spots that are only a
   combination of 2 of the numbers, displaying only 1 number that is a
   combination of all 4.
-2) implement pressing arrow keys instead of buttons on the screen. maybe have both
 */
 
 var win = 0;
@@ -37,6 +36,28 @@ var boardArray = [
     Number(document.getElementById("ddrr").innerHTML)
   ]
 ];
+
+document.onkeydown = function(key) {
+  if(key.keyCode == 37) {
+    console.log("Left", key.keyCode)
+    leftButtonPress();
+  }
+  else if(key.keyCode == 38) {
+    console.log("Up", key.keyCode);
+    upButtonPress();
+  }
+  else if(key.keyCode == 39) {
+    console.log("Right", key.keyCode);
+    rightButtonPress();
+  }
+  else if(key.keyCode == 40) {
+    console.log("Down", key.keyCode);
+    downButtonPress();
+  }
+  else {
+    console.log("other key", key.keyCode)
+  }
+}
 
 function moveElement(increasingElement, element, newElementRow, newElementCol) {
   boardArray[newElementRow][newElementCol] = increasingElement + element;
