@@ -39,11 +39,7 @@ function upButtonPress() {
 
   for(var i = 0; i < 3; i++){
     for(var j = 0; j < 4; j++){
-      if(boardArray[i][j] === boardArray[i+1][j]){
-        moveElement(boardArray[i][j], boardArray[i+1][j], boardArray, i, j);
-        deleteElement(boardArray, i+1, j);
-      }
-      else if(boardArray[i][j] === 0){
+      if(boardArray[i][j] === boardArray[i+1][j] || boardArray[i][j] === 0){
         moveElement(boardArray[i][j], boardArray[i+1][j], boardArray, i, j);
         deleteElement(boardArray, i+1, j);
       }
@@ -57,7 +53,10 @@ function downButtonPress() {
 
   for(var i = 3; i > 0; i--){
     for(var j = 0; j < 4; j++){
-      moveElement(boardArray[i][j], boardArray[i-1][j], boardArray, i, j);
+      if(boardArray[i][j] === boardArray[i-1][j] || boardArray[i][j] === 0){
+        moveElement(boardArray[i][j], boardArray[i-1][j], boardArray, i, j);
+        deleteElement(boardArray, i-1, j);
+      }
     }
   }
   displayBoard();
@@ -68,7 +67,10 @@ function leftButtonPress() {
 
   for(var i = 0; i < 4; i++){
     for(var j = 0; j < 3; j++){
-      moveElement(boardArray[i][j], boardArray[i][j+1], boardArray, i, j);
+      if(boardArray[i][j] === boardArray[i][j+1] || boardArray[i][j] === 0){
+        moveElement(boardArray[i][j], boardArray[i][j+1], boardArray, i, j);
+        deleteElement(boardArray, i, j+1);
+      }
     }
   }
   displayBoard();
@@ -79,7 +81,10 @@ function rightButtonPress() {
 
   for(var i = 0; i < 4; i++){
     for(var j = 3; j > 0; j--){
-      moveElement(boardArray[i][j], boardArray[i][j-1], boardArray, i, j);
+      if(boardArray[i][j] === boardArray[i][j-1] || boardArray[i][j] === 0){
+        moveElement(boardArray[i][j], boardArray[i][j-1], boardArray, i, j);
+        deleteElement(boardArray, i, j-1);
+      }
     }
   }
   displayBoard();
