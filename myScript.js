@@ -6,7 +6,7 @@ Still to do:
   combination of all 4.
 2) fix bug... if nothing moves, it should not count as a move and should not
   create a new element
-  
+
 */
 
 var win = 0;
@@ -235,8 +235,44 @@ function rightButtonPress() {
 }
 
 //current test in progress
+
+function recUpButtonPress(currentRow, currentCol, currentElement) {
+  console.log("currentRow = ", currentRow, "...currentCol = ", currentCol, "...currentElement = ", currentElement);
+  if(currentRow === 0) {
+    console.log("inside if");
+    boardArray[currentRow][currentCol] = currentElement;
+    return;
+  }
+  else if(boardArray[currentRow-1][currentCol] === 0) {
+    console.log("calling recursion - ", currentRow);
+    recUpButtonPress(currentRow-1, currentCol, currentElement);
+    console.log("out of recursion - ", currentRow);
+    deleteElement(currentRow, currentCol);
+  }
+  else if(currentElement === boardArray[currentRow-1][currentCol]){
+    console.log("found same numbers");
+    boardArray[currentRow-1][currentCol] = currentElement * 2;
+    deleteElement(currentRow, currentCol);
+    return;
+  }
+  else {
+    console.log("inside else");
+    boardArray[currentRow][currentCol] = currentElement;
+    return;
+  }
+}
+
 function currentTestPress() {
-  document.getElementById("currentTest").innerHTML = "No test being performed.";
+  //document.getElementById("currentTest").innerHTML = "No test being performed.";
+  console.log("Testing recursive up button press");
+  for(var i = 0; i < 4; i++) {
+    for(var j = 0; j < 4; j++) {
+      recUpButtonPress(i, j, boardArray[i][j]);
+      displayBoard();
+    }
+  }
+
+
 }
 
 //for checking what's in the arrays
