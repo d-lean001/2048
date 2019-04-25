@@ -82,6 +82,17 @@ function clearBoard() {
   displayBoard();
 }
 
+function checkBoard() {
+  for(var i = 0; i < 4; i++){
+    for(var j = 0; j < 4; j++){
+      if(boardArray[i][j] === 0){
+        return;
+      }
+    }
+  }
+  window.alert("Good Game. You lose");
+}
+
 function newGameButtonPress() {
   clearBoard();
   newElement();
@@ -103,6 +114,7 @@ function upButtonPress() {
   }
   newElement();
   displayBoard();
+  checkBoard();
 }
 
 function downButtonPress() {
@@ -120,6 +132,7 @@ function downButtonPress() {
   }
   newElement();
   displayBoard();
+  checkBoard();
 }
 
 function leftButtonPress() {
@@ -137,6 +150,7 @@ function leftButtonPress() {
   }
   newElement();
   displayBoard();
+  checkBoard();
 }
 
 function rightButtonPress() {
@@ -154,6 +168,7 @@ function rightButtonPress() {
   }
   newElement();
   displayBoard();
+  checkBoard();
 }
 
 //current test in progress
