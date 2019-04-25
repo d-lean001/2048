@@ -56,11 +56,9 @@ var colFour = [
   Number(document.getElementById("ddrr").innerHTML)
 ]
 
-//handles button presses
 function upButtonPress() {
   console.log("Up is pressed");
   document.getElementById("debugText").innerHTML = "Up is pressed";
-
 }
 
 function downButtonPress() {
@@ -105,12 +103,21 @@ function displayBoard() {
   document.getElementById("ddrr").innerHTML = rowFour[3];
 }
 
+//current test in progress
 function currentTestPress() {
-  console.log("Testing = moving rowOne[1] into rowOne[0]. Then changing the board on the screen");
+  /*console.log("Testing = moving rowOne[1] into rowOne[0]. Then changing the board on the screen");
   console.log("Before = ", rowOne[0], rowOne[1]);
   moveElement(rowOne[0], rowOne[1], rowOne, 0,1);
   console.log("After = ", rowOne[0], rowOne[1]);
-  displayBoard();
+  displayBoard();*/
+
+  var arr2D = [
+    [1, 2, 3, 4],
+    [5, 6, 7, 8],
+    [9, 10, 11, 12],
+    [13, 14, 15, 16]
+  ];
+  console.log(arr2D[3][2]);
 }
 
 //for checking what's in the arrays
