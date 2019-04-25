@@ -25,76 +25,29 @@ var boardArray = [
   ]
 ];
 
-function moveElement(increasingElement, element, array, newElementRow, newElementCol) {
-  array[newElementRow][newElementCol] = increasingElement + element;
-  return;
+function moveElement(increasingElement, element, newElementRow, newElementCol) {
+  boardArray[newElementRow][newElementCol] = increasingElement + element;
 }
 
-function deleteElement(array, row, col){
-  array[row][col] = 0;
+function deleteElement(row, col) {
+  boardArray[row][col] = 0;
 }
 
-function upButtonPress() {
-  console.log("Up is pressed");
+function newElement() {
+  do {
+    var newRow = Math.floor(Math.random() * 4);
+    var newCol = Math.floor(Math.random() * 4);
+    console.log("row = ", newRow);
+    console.log("col = ", newCol);
+  } while(boardArray[newRow][newCol] !== 0);
 
-  for(var k = 0; k < 4; k++) {
-    for(var i = 3; i > 0; i--) {
-      for(var j = 0; j < 4; j++) {
-        if(boardArray[i][j] === boardArray[i-1][j] || boardArray[i-1][j] === 0){
-          moveElement(boardArray[i-1][j], boardArray[i][j], boardArray, i-1, j);
-          deleteElement(boardArray, i, j);
-        }
-      }
-    }
+  var newElementNum = (Math.floor(Math.random() * 3) + 1) * 2;
+  if(newElementNum === 6) {
+    newElementNum = 8;
   }
-  displayBoard();
-}
+  console.log("new number = ", newElementNum);
 
-function downButtonPress() {
-  console.log("Down is pressed");
-
-  for(var k = 0; k < 4; k++) {
-    for(var i = 0; i < 3; i++) {
-      for(var j = 0; j < 4; j++) {
-        if(boardArray[i][j] === boardArray[i+1][j] || boardArray[i+1][j] === 0){
-          moveElement(boardArray[i+1][j], boardArray[i][j], boardArray, i+1, j);
-          deleteElement(boardArray, i, j);
-        }
-      }
-    }
-  }
-  displayBoard();
-}
-
-function leftButtonPress() {
-  console.log("Left is pressed");
-
-  for(var k = 0; k < 4; k++) {
-    for(var i = 0; i < 4; i++) {
-      for(var j = 3; j > 0; j--) {
-        if(boardArray[i][j] === boardArray[i][j-1] || boardArray[i][j-1] === 0){
-          moveElement(boardArray[i][j-1], boardArray[i][j], boardArray, i, j-1);
-          deleteElement(boardArray, i, j);
-        }
-      }
-    }
-  }
-  displayBoard();
-}
-
-function rightButtonPress() {
-  console.log("Right is pressed");
-
-  for(var k = 0; k < 4; k++) {
-    for(var i = 0; i < 4; i++) {
-      for(var j = 0; j < 3; j++) {
-        if(boardArray[i][j] === boardArray[i][j+1] || boardArray[i][j+1] === 0){
-          moveElement(boardArray[i][j+1], boardArray[i][j], boardArray, i, j+1);
-          deleteElement(boardArray, i, j);
-        }
-      }
-    }
-  }
+  boardArray[newRow][newCol] = newElementNum;
   displayBoard();
 }
 
@@ -129,9 +82,83 @@ function clearBoard() {
   displayBoard();
 }
 
+function newGameButtonPress() {
+  clearBoard();
+  newElement();
+  newElement();
+}
+
+function upButtonPress() {
+  console.log("Up is pressed");
+
+  for(var k = 0; k < 4; k++) {
+    for(var i = 3; i > 0; i--) {
+      for(var j = 0; j < 4; j++) {
+        if(boardArray[i][j] === boardArray[i-1][j] || boardArray[i-1][j] === 0){
+          moveElement(boardArray[i-1][j], boardArray[i][j], i-1, j);
+          deleteElement(i, j);
+        }
+      }
+    }
+  }
+  newElement();
+  displayBoard();
+}
+
+function downButtonPress() {
+  console.log("Down is pressed");
+
+  for(var k = 0; k < 4; k++) {
+    for(var i = 0; i < 3; i++) {
+      for(var j = 0; j < 4; j++) {
+        if(boardArray[i][j] === boardArray[i+1][j] || boardArray[i+1][j] === 0){
+          moveElement(boardArray[i+1][j], boardArray[i][j], i+1, j);
+          deleteElement(i, j);
+        }
+      }
+    }
+  }
+  newElement();
+  displayBoard();
+}
+
+function leftButtonPress() {
+  console.log("Left is pressed");
+
+  for(var k = 0; k < 4; k++) {
+    for(var i = 0; i < 4; i++) {
+      for(var j = 3; j > 0; j--) {
+        if(boardArray[i][j] === boardArray[i][j-1] || boardArray[i][j-1] === 0){
+          moveElement(boardArray[i][j-1], boardArray[i][j], i, j-1);
+          deleteElement(i, j);
+        }
+      }
+    }
+  }
+  newElement();
+  displayBoard();
+}
+
+function rightButtonPress() {
+  console.log("Right is pressed");
+
+  for(var k = 0; k < 4; k++) {
+    for(var i = 0; i < 4; i++) {
+      for(var j = 0; j < 3; j++) {
+        if(boardArray[i][j] === boardArray[i][j+1] || boardArray[i][j+1] === 0){
+          moveElement(boardArray[i][j+1], boardArray[i][j], i, j+1);
+          deleteElement(i, j);
+        }
+      }
+    }
+  }
+  newElement();
+  displayBoard();
+}
+
 //current test in progress
 function currentTestPress() {
-
+  newElement();
 }
 
 //for checking what's in the arrays
