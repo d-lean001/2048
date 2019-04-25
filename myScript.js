@@ -1,3 +1,7 @@
+var win = 0;
+var loss = 0;
+var gameLost = false;
+
 var boardArray = [
   [
     Number(document.getElementById("uull").innerHTML),
@@ -90,10 +94,12 @@ function checkBoard() {
       }
     }
   }
-  window.alert("Good Game. You lose");
+  gameLost = true;
+  window.alert("Game Over");
 }
 
 function newGameButtonPress() {
+  gameLost = false;
   clearBoard();
   newElement();
   newElement();
@@ -102,78 +108,102 @@ function newGameButtonPress() {
 function upButtonPress() {
   console.log("Up is pressed");
 
-  for(var k = 0; k < 4; k++) {
-    for(var i = 3; i > 0; i--) {
-      for(var j = 0; j < 4; j++) {
-        if(boardArray[i][j] === boardArray[i-1][j] || boardArray[i-1][j] === 0){
-          moveElement(boardArray[i-1][j], boardArray[i][j], i-1, j);
-          deleteElement(i, j);
+  if(gameLost === false) {
+    for(var k = 0; k < 4; k++) {
+      for(var i = 3; i > 0; i--) {
+        for(var j = 0; j < 4; j++) {
+          if(boardArray[i][j] === boardArray[i-1][j] || boardArray[i-1][j] === 0){
+            moveElement(boardArray[i-1][j], boardArray[i][j], i-1, j);
+            deleteElement(i, j);
+          }
         }
       }
     }
+    newElement();
+    displayBoard();
+    checkBoard();
   }
-  newElement();
-  displayBoard();
-  checkBoard();
+  else {
+    console.log("Gameover. Need to restart game.");
+    window.alert("Please click New Game to continue.");
+  }
 }
 
 function downButtonPress() {
   console.log("Down is pressed");
 
-  for(var k = 0; k < 4; k++) {
-    for(var i = 0; i < 3; i++) {
-      for(var j = 0; j < 4; j++) {
-        if(boardArray[i][j] === boardArray[i+1][j] || boardArray[i+1][j] === 0){
-          moveElement(boardArray[i+1][j], boardArray[i][j], i+1, j);
-          deleteElement(i, j);
+  if(gameLost === false) {
+    for(var k = 0; k < 4; k++) {
+      for(var i = 0; i < 3; i++) {
+        for(var j = 0; j < 4; j++) {
+          if(boardArray[i][j] === boardArray[i+1][j] || boardArray[i+1][j] === 0){
+            moveElement(boardArray[i+1][j], boardArray[i][j], i+1, j);
+            deleteElement(i, j);
+          }
         }
       }
     }
+    newElement();
+    displayBoard();
+    checkBoard();
   }
-  newElement();
-  displayBoard();
-  checkBoard();
+  else {
+    console.log("Gameover. Need to restart game.");
+    window.alert("Please click New Game to continue.");
+  }
 }
 
 function leftButtonPress() {
   console.log("Left is pressed");
 
-  for(var k = 0; k < 4; k++) {
-    for(var i = 0; i < 4; i++) {
-      for(var j = 3; j > 0; j--) {
-        if(boardArray[i][j] === boardArray[i][j-1] || boardArray[i][j-1] === 0){
-          moveElement(boardArray[i][j-1], boardArray[i][j], i, j-1);
-          deleteElement(i, j);
+  if(gameLost === false) {
+    for(var k = 0; k < 4; k++) {
+      for(var i = 0; i < 4; i++) {
+        for(var j = 3; j > 0; j--) {
+          if(boardArray[i][j] === boardArray[i][j-1] || boardArray[i][j-1] === 0){
+            moveElement(boardArray[i][j-1], boardArray[i][j], i, j-1);
+            deleteElement(i, j);
+          }
         }
       }
     }
+    newElement();
+    displayBoard();
+    checkBoard();
   }
-  newElement();
-  displayBoard();
-  checkBoard();
+  else {
+    console.log("Gameover. Need to restart game.");
+    window.alert("Please click New Game to continue.");
+  }
 }
 
 function rightButtonPress() {
   console.log("Right is pressed");
 
-  for(var k = 0; k < 4; k++) {
-    for(var i = 0; i < 4; i++) {
-      for(var j = 0; j < 3; j++) {
-        if(boardArray[i][j] === boardArray[i][j+1] || boardArray[i][j+1] === 0){
-          moveElement(boardArray[i][j+1], boardArray[i][j], i, j+1);
-          deleteElement(i, j);
+  if(gameLost === false) {
+    for(var k = 0; k < 4; k++) {
+      for(var i = 0; i < 4; i++) {
+        for(var j = 0; j < 3; j++) {
+          if(boardArray[i][j] === boardArray[i][j+1] || boardArray[i][j+1] === 0){
+            moveElement(boardArray[i][j+1], boardArray[i][j], i, j+1);
+            deleteElement(i, j);
+          }
         }
       }
     }
+    newElement();
+    displayBoard();
+    checkBoard();
   }
-  newElement();
-  displayBoard();
-  checkBoard();
+  else {
+    console.log("Gameover. Need to restart game.");
+    window.alert("Please click New Game to continue.");
+  }
 }
 
 //current test in progress
 function currentTestPress() {
-  newElement();
+  document.getElementById("currentTest").innerHTML = "No test being performed.";
 }
 
 //for checking what's in the arrays
