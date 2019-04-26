@@ -4,12 +4,12 @@ body {
 
 table, tr, td {
   border: 1px solid black;
-  background-color: #ffcc00;
+  background-color: white;
   text-align: center;
 }
 
 td {
-  font-size: 40px;
+  font-size: 28px;
   width: 60px;
   height: 60px;
 }

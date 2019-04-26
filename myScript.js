@@ -1,6 +1,7 @@
 /*
 Still to do:
-1)
+1) bug... if board is full, but still able to make a move, still gameover.
+  should be able to make a move first before actual game over.
 
 
 */
@@ -10,31 +11,32 @@ var loss = 0;
 var gameLost = false;
 var tileMoved = false;
 
+//document.getElementById("dl").style.backgroundColor = "blue";
 
 var boardArray = [
   [
-    {value:Number(document.getElementById("uull").innerHTML), combined:false},
-    {value:Number(document.getElementById("uul").innerHTML), combined:false},
-    {value:Number(document.getElementById("uur").innerHTML), combined:false},
-    {value:Number(document.getElementById("uurr").innerHTML), combined:false}
+    {value:Number(document.getElementById("uull").innerHTML), combined:false, elementId:"uull"},
+    {value:Number(document.getElementById("uul").innerHTML), combined:false, elementId:"uul"},
+    {value:Number(document.getElementById("uur").innerHTML), combined:false, elementId:"uur"},
+    {value:Number(document.getElementById("uurr").innerHTML), combined:false, elementId:"uurr"}
   ],
   [
-    {value:Number(document.getElementById("ull").innerHTML), combined:false},
-    {value:Number(document.getElementById("ul").innerHTML), combined:false},
-    {value:Number(document.getElementById("ur").innerHTML), combined:false},
-    {value:Number(document.getElementById("urr").innerHTML), combined:false}
+    {value:Number(document.getElementById("ull").innerHTML), combined:false, elementId:"ull"},
+    {value:Number(document.getElementById("ul").innerHTML), combined:false, elementId:"ul"},
+    {value:Number(document.getElementById("ur").innerHTML), combined:false, elementId:"ur"},
+    {value:Number(document.getElementById("urr").innerHTML), combined:false, elementId:"urr"}
   ],
   [
-    {value:Number(document.getElementById("dll").innerHTML), combined:false},
-    {value:Number(document.getElementById("dl").innerHTML), combined:false},
-    {value:Number(document.getElementById("dr").innerHTML), combined:false},
-    {value:Number(document.getElementById("drr").innerHTML), combined:false}
+    {value:Number(document.getElementById("dll").innerHTML), combined:false, elementId:"dll"},
+    {value:Number(document.getElementById("dl").innerHTML), combined:false, elementId:"dl"},
+    {value:Number(document.getElementById("dr").innerHTML), combined:false, elementId:"dr"},
+    {value:Number(document.getElementById("drr").innerHTML), combined:false, elementId:"drr"}
   ],
   [
-    {value:Number(document.getElementById("ddll").innerHTML), combined:false},
-    {value:Number(document.getElementById("ddl").innerHTML), combined:false},
-    {value:Number(document.getElementById("ddr").innerHTML), combined:false},
-    {value:Number(document.getElementById("ddrr").innerHTML), combined:false}
+    {value:Number(document.getElementById("ddll").innerHTML), combined:false, elementId:"ddll"},
+    {value:Number(document.getElementById("ddl").innerHTML), combined:false, elementId:"ddl"},
+    {value:Number(document.getElementById("ddr").innerHTML), combined:false, elementId:"ddr"},
+    {value:Number(document.getElementById("ddrr").innerHTML), combined:false, elementId:"ddrr"}
   ]
 ];
 
@@ -83,6 +85,7 @@ function newElement() {
   console.log("new number = ", newElementNum);
 
   boardArray[newRow][newCol].value = newElementNum;
+  changeElementColor(newRow, newCol);
 }
 
 function displayBoard() {
@@ -120,7 +123,8 @@ function clearBoard() {
 function checkBoard() {
   for(var i = 0; i < 4; i++){
     for(var j = 0; j < 4; j++){
-      if(boardArray[i][j].value === 2048){
+      changeElementColor(i, j);
+      if(boardArray[i][j].value === 2049){
         window.alert("Congrats! You Win!")
         return;
       }
@@ -148,6 +152,49 @@ function clearCombinedAndTileMoved() {
     }
   }
   tileMoved = false;
+}
+
+function changeElementColor(row, col) {
+  var elementVal = boardArray[row][col].value;
+  console.log(elementVal);
+  switch(elementVal) {
+    case 0:
+      document.getElementById(boardArray[row][col].elementId).style.backgroundColor = "white";
+      break;
+    case 2:
+      document.getElementById(boardArray[row][col].elementId).style.backgroundColor = "#ffff99";
+      break;
+    case 4:
+      document.getElementById(boardArray[row][col].elementId).style.backgroundColor = "#ffff66";
+      break;
+    case 8:
+      document.getElementById(boardArray[row][col].elementId).style.backgroundColor = "#ffff00";
+      break;
+    case 16:
+      document.getElementById(boardArray[row][col].elementId).style.backgroundColor = "#ccffcc";
+      break;
+    case 32:
+      document.getElementById(boardArray[row][col].elementId).style.backgroundColor = "#99ff99";
+      break;
+    case 64:
+      document.getElementById(boardArray[row][col].elementId).style.backgroundColor = "#66ff66";
+      break;
+    case 128:
+      document.getElementById(boardArray[row][col].elementId).style.backgroundColor = "#ccffff";
+      break;
+    case 256:
+      document.getElementById(boardArray[row][col].elementId).style.backgroundColor = "#66ffff";
+      break;
+    case 512:
+      document.getElementById(boardArray[row][col].elementId).style.backgroundColor = "#00ffff";
+      break;
+    case 1024:
+      document.getElementById(boardArray[row][col].elementId).style.backgroundColor = "#ff9966";
+      break;
+    case 2048:
+      document.getElementById(boardArray[row][col].elementId).style.backgroundColor = "red";
+      break;
+  }
 }
 
 function newGameButtonPress() {
@@ -331,17 +378,12 @@ function currentTestPress() {
   }
 }
 */
-var objectArr = [
-  [{value:2, combined:false}, {value:4, combined:false}],
-  [{value:8, combined:true}, {value:16, combined:true}]
-];
+
 
 function currentTestPress() {
   //document.getElementById("currentTest").innerHTML = "No test being performed.";
-  console.log("obejectArr[0][0] value = ", objectArr[0][0].value);
-  console.log("obejectArr[0][0] combined = ", objectArr[0][0].combined);
-  console.log("obejectArr[1][0] value = ", objectArr[1][0].value);
-  console.log("obejectArr[1][0] combined = ", objectArr[1][0].combined);
+  boardArray[1][1].color = 4;
+  changeElementColor(0,1);
 
 }
 
