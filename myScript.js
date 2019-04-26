@@ -125,15 +125,19 @@ function clearBoard() {
 }
 
 function checkBoard() {
-  for(var i = 0; i < 4; i++){
-    for(var j = 0; j < 4; j++){
-      if(boardArray[i][j].value === 0){
-        return;
+  if(gameLost === true){
+    window.alert("Game Over. Click New Game to start over.");
+  }
+  else{
+    for(var i = 0; i < 4; i++){
+      for(var j = 0; j < 4; j++){
+        if(boardArray[i][j].value === 0){
+          return;
+        }
       }
     }
+    gameLost = true;
   }
-  gameLost = true;
-  window.alert("Game Over");
 }
 
 function clearCombinedAndTileMoved() {
@@ -156,111 +160,129 @@ function newGameButtonPress() {
 function upButtonPress() {
   console.log("Up is pressed");
 
-  if(gameLost === false) {
-    for(var k = 0; k < 4; k++) {
-      for(var i = 0; i < 3; i++) {
-        for(var j = 0; j < 4; j++) {
-          if(boardArray[i][j].value === boardArray[i+1][j].value &&
-          boardArray[i][j].combined === false &&
-          boardArray[i+1][j].combined === false &&
-          boardArray[i][j].value !== 0) {
-            moveElement(boardArray[i][j].value, boardArray[i+1][j].value, i, j);
-            boardArray[i][j].combined = true;
-            deleteElement(i+1, j);
-          }
-          else if(boardArray[i][j].value === 0 && boardArray[i+1][j].value !== 0) {
-            moveElement(boardArray[i][j].value, boardArray[i+1][j].value, i, j);
-            deleteElement(i+1, j);
-          }
-          else {
-          }
+  checkBoard();
+  for(var k = 0; k < 4; k++) {
+    for(var i = 0; i < 3; i++) {
+      for(var j = 0; j < 4; j++) {
+        if(boardArray[i][j].value === boardArray[i+1][j].value &&
+        boardArray[i][j].combined === false &&
+        boardArray[i+1][j].combined === false &&
+        boardArray[i][j].value !== 0) {
+          moveElement(boardArray[i][j].value, boardArray[i+1][j].value, i, j);
+          boardArray[i][j].combined = true;
+          deleteElement(i+1, j);
+        }
+        else if(boardArray[i][j].value === 0 && boardArray[i+1][j].value !== 0) {
+          moveElement(boardArray[i][j].value, boardArray[i+1][j].value, i, j);
+          deleteElement(i+1, j);
+        }
+        else {
         }
       }
     }
-    console.log("tileMoved = ", tileMoved);
-    if(tileMoved === true) {
-      newElement();
-    }
-    displayBoard();
-    checkBoard();
-    clearCombinedAndTileMoved();
   }
-  else {
-    console.log("Gameover. Need to restart game.");
-    window.alert("Please click New Game to continue.");
+  console.log("tileMoved = ", tileMoved);
+  if(tileMoved === true) {
+    newElement();
   }
+  displayBoard();
+  clearCombinedAndTileMoved();
 }
 
 function downButtonPress() {
   console.log("Down is pressed");
 
-  if(gameLost === false) {
-    for(var k = 0; k < 4; k++) {
-      for(var i = 0; i < 3; i++) {
-        for(var j = 0; j < 4; j++) {
-          if(boardArray[i][j].value === boardArray[i+1][j].value || boardArray[i+1][j].value === 0){
-            moveElement(boardArray[i+1][j].value, boardArray[i][j].value, i+1, j);
-            deleteElement(i, j);
-          }
+  checkBoard();
+  for(var k = 0; k < 4; k++) {
+    for(var i = 3; i > 0; i--) {
+      for(var j = 0; j < 4; j++) {
+        if(boardArray[i][j].value === boardArray[i-1][j].value &&
+        boardArray[i][j].combined === false &&
+        boardArray[i-1][j].combined === false &&
+        boardArray[i-1][j].value !== 0) {
+          moveElement(boardArray[i][j].value, boardArray[i-1][j].value, i, j);
+          boardArray[i][j].combined = true;
+          deleteElement(i-1, j);
+        }
+        else if(boardArray[i][j].value === 0 && boardArray[i-1][j].value !== 0) {
+          moveElement(boardArray[i][j].value, boardArray[i-1][j].value, i, j);
+          deleteElement(i-1, j);
+        }
+        else {
         }
       }
     }
+  }
+  console.log("tileMoved = ", tileMoved);
+  if(tileMoved === true) {
     newElement();
-    displayBoard();
-    checkBoard();
   }
-  else {
-    console.log("Gameover. Need to restart game.");
-    window.alert("Please click New Game to continue.");
-  }
+  displayBoard();
+  clearCombinedAndTileMoved();
 }
 
 function leftButtonPress() {
   console.log("Left is pressed");
 
-  if(gameLost === false) {
-    for(var k = 0; k < 4; k++) {
-      for(var i = 0; i < 4; i++) {
-        for(var j = 3; j > 0; j--) {
-          if(boardArray[i][j].value === boardArray[i][j-1].value || boardArray[i][j-1].value === 0){
-            moveElement(boardArray[i][j-1].value, boardArray[i][j].value, i, j-1);
-            deleteElement(i, j);
-          }
+  checkBoard();
+  for(var k = 0; k < 4; k++) {
+    for(var i = 0; i < 4; i++) {
+      for(var j = 0; j < 3; j++) {
+        if(boardArray[i][j].value === boardArray[i][j+1].value &&
+        boardArray[i][j].combined === false &&
+        boardArray[i][j+1].combined === false &&
+        boardArray[i][j].value !== 0) {
+          moveElement(boardArray[i][j].value, boardArray[i][j+1].value, i, j);
+          boardArray[i][j].combined = true;
+          deleteElement(i, j+1);
+        }
+        else if(boardArray[i][j].value === 0 && boardArray[i][j+1].value !== 0) {
+          moveElement(boardArray[i][j].value, boardArray[i][j+1].value, i, j);
+          deleteElement(i, j+1);
+        }
+        else {
         }
       }
     }
+  }
+  console.log("tileMoved = ", tileMoved);
+  if(tileMoved === true) {
     newElement();
-    displayBoard();
-    checkBoard();
   }
-  else {
-    console.log("Gameover. Need to restart game.");
-    window.alert("Please click New Game to continue.");
-  }
+  displayBoard();
+  clearCombinedAndTileMoved();
 }
 
 function rightButtonPress() {
   console.log("Right is pressed");
 
-  if(gameLost === false) {
-    for(var k = 0; k < 4; k++) {
-      for(var i = 0; i < 4; i++) {
-        for(var j = 0; j < 3; j++) {
-          if(boardArray[i][j].value === boardArray[i][j+1].value || boardArray[i][j+1].value === 0){
-            moveElement(boardArray[i][j+1].value, boardArray[i][j].value, i, j+1);
-            deleteElement(i, j);
-          }
+  checkBoard();
+  for(var k = 0; k < 4; k++) {
+    for(var i = 0; i < 4; i++) {
+      for(var j = 3; j > 0; j--) {
+        if(boardArray[i][j].value === boardArray[i][j-1].value &&
+        boardArray[i][j].combined === false &&
+        boardArray[i][j-1].combined === false &&
+        boardArray[i][j-1].value !== 0) {
+          moveElement(boardArray[i][j].value, boardArray[i][j-1].value, i, j);
+          boardArray[i][j].combined = true;
+          deleteElement(i, j-1);
+        }
+        else if(boardArray[i][j].value === 0 && boardArray[i][j-1].value !== 0) {
+          moveElement(boardArray[i][j].value, boardArray[i][j-1].value, i, j);
+          deleteElement(i, j-1);
+        }
+        else {
         }
       }
     }
+  }
+  console.log("tileMoved = ", tileMoved);
+  if(tileMoved === true) {
     newElement();
-    displayBoard();
-    checkBoard();
   }
-  else {
-    console.log("Gameover. Need to restart game.");
-    window.alert("Please click New Game to continue.");
-  }
+  displayBoard();
+  clearCombinedAndTileMoved();
 }
 
 
