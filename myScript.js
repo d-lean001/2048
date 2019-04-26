@@ -2,6 +2,8 @@
 Still to do:
 1) bug... if board is full, but still able to make a move, still gameover.
   should be able to make a move first before actual game over.
+  ===> half fixed. made flags to check if any movement was done in any direction
+    if movement was attempted in all directions but nothing moved, this means game over
 
 
 */
@@ -10,6 +12,10 @@ var win = 0;
 var loss = 0;
 var gameLost = false;
 var tileMoved = false;
+var noMoveUp = false;
+var noMoveDown = false;
+var noMoveLeft = false;
+var noMoveRight = false;
 
 //document.getElementById("dl").style.backgroundColor = "blue";
 
@@ -65,6 +71,10 @@ document.onkeydown = function(key) {
 function moveElement(increasingElement, element, newElementRow, newElementCol) {
   boardArray[newElementRow][newElementCol].value = increasingElement + element;
   tileMoved = true;
+  noMoveUp = false;
+  noMoveDown = false;
+  noMoveLeft = false;
+  noMoveRight = false;
 }
 
 function deleteElement(row, col) {
@@ -78,9 +88,12 @@ function newElement() {
     console.log("row = ", newRow, " col = ", newCol);
   } while(boardArray[newRow][newCol].value !== 0);
 
-  var newElementNum = (Math.floor(Math.random() * 3) + 1) * 2;
-  if(newElementNum === 6) {
-    newElementNum = 8;
+  var newElementNum = Math.floor(Math.random() * 10);
+  if(newElementNum < 7) {
+    newElementNum = 2;
+  }
+  else {
+    newElementNum = 4;
   }
   console.log("new number = ", newElementNum);
 
@@ -125,7 +138,7 @@ function checkBoard() {
   for(var i = 0; i < 4; i++){
     for(var j = 0; j < 4; j++){
       changeElementColor(i, j);
-      if(boardArray[i][j].value === 2049){
+      if(boardArray[i][j].value === 2048){
         window.alert("Congrats! You Win!")
         return;
       }
@@ -135,14 +148,9 @@ function checkBoard() {
     window.alert("Game Over. Click New Game to start over.");
   }
   else{
-    for(var i = 0; i < 4; i++){
-      for(var j = 0; j < 4; j++){
-        if(boardArray[i][j].value === 0){
-          return;
-        }
-      }
+    if(noMoveUp && noMoveDown && noMoveLeft && noMoveRight){
+      gameLost = true;
     }
-    gameLost = true;
   }
 }
 
@@ -233,6 +241,9 @@ function upButtonPress() {
   if(tileMoved === true) {
     newElement();
   }
+  else {
+    noMoveUp = true;
+  }
   displayBoard();
   checkBoard();
   clearCombinedAndTileMoved();
@@ -264,6 +275,9 @@ function downButtonPress() {
   console.log("tileMoved = ", tileMoved);
   if(tileMoved === true) {
     newElement();
+  }
+  else {
+    noMoveDown = true;
   }
   displayBoard();
   checkBoard();
@@ -297,6 +311,9 @@ function leftButtonPress() {
   if(tileMoved === true) {
     newElement();
   }
+  else {
+    noMoveLeft = true;
+  }
   displayBoard();
   checkBoard();
   clearCombinedAndTileMoved();
@@ -328,6 +345,9 @@ function rightButtonPress() {
   console.log("tileMoved = ", tileMoved);
   if(tileMoved === true) {
     newElement();
+  }
+  else {
+    noMoveRight = true;
   }
   displayBoard();
   checkBoard();
