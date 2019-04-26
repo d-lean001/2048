@@ -115,6 +115,7 @@ function clearBoard() {
     for(var j = 0; j < 4; j++){
       boardArray[i][j].value = 0;
       boardArray[i][j].combined = false;
+      changeElementColor(i, j);
     }
   }
   displayBoard();
