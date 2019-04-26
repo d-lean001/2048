@@ -6,37 +6,42 @@ Still to do:
   combination of all 4.
 2) fix bug... if nothing moves, it should not count as a move and should not
   create a new element
+3) when 3 tiles in a row have the same number and left is pressed, the wrong
+  output is displayed. ex:
+  [16,4,4,4] -> left pressed -> result -> [16,4,8,0] -> should be [16,8,4,0]
 
 */
 
 var win = 0;
 var loss = 0;
 var gameLost = false;
+var tileMoved = false;
+
 
 var boardArray = [
   [
-    Number(document.getElementById("uull").innerHTML),
-    Number(document.getElementById("uul").innerHTML),
-    Number(document.getElementById("uur").innerHTML),
-    Number(document.getElementById("uurr").innerHTML)
+    {value:Number(document.getElementById("uull").innerHTML), combined:false},
+    {value:Number(document.getElementById("uul").innerHTML), combined:false},
+    {value:Number(document.getElementById("uur").innerHTML), combined:false},
+    {value:Number(document.getElementById("uurr").innerHTML), combined:false}
   ],
   [
-    Number(document.getElementById("ull").innerHTML),
-    Number(document.getElementById("ul").innerHTML),
-    Number(document.getElementById("ur").innerHTML),
-    Number(document.getElementById("urr").innerHTML)
+    {value:Number(document.getElementById("ull").innerHTML), combined:false},
+    {value:Number(document.getElementById("ul").innerHTML), combined:false},
+    {value:Number(document.getElementById("ur").innerHTML), combined:false},
+    {value:Number(document.getElementById("urr").innerHTML), combined:false}
   ],
   [
-    Number(document.getElementById("dll").innerHTML),
-    Number(document.getElementById("dl").innerHTML),
-    Number(document.getElementById("dr").innerHTML),
-    Number(document.getElementById("drr").innerHTML)
+    {value:Number(document.getElementById("dll").innerHTML), combined:false},
+    {value:Number(document.getElementById("dl").innerHTML), combined:false},
+    {value:Number(document.getElementById("dr").innerHTML), combined:false},
+    {value:Number(document.getElementById("drr").innerHTML), combined:false}
   ],
   [
-    Number(document.getElementById("ddll").innerHTML),
-    Number(document.getElementById("ddl").innerHTML),
-    Number(document.getElementById("ddr").innerHTML),
-    Number(document.getElementById("ddrr").innerHTML)
+    {value:Number(document.getElementById("ddll").innerHTML), combined:false},
+    {value:Number(document.getElementById("ddl").innerHTML), combined:false},
+    {value:Number(document.getElementById("ddr").innerHTML), combined:false},
+    {value:Number(document.getElementById("ddrr").innerHTML), combined:false}
   ]
 ];
 
@@ -63,20 +68,20 @@ document.onkeydown = function(key) {
 }
 
 function moveElement(increasingElement, element, newElementRow, newElementCol) {
-  boardArray[newElementRow][newElementCol] = increasingElement + element;
+  boardArray[newElementRow][newElementCol].value = increasingElement + element;
+  tileMoved = true;
 }
 
 function deleteElement(row, col) {
-  boardArray[row][col] = 0;
+  boardArray[row][col].value = 0;
 }
 
 function newElement() {
   do {
     var newRow = Math.floor(Math.random() * 4);
     var newCol = Math.floor(Math.random() * 4);
-    console.log("row = ", newRow);
-    console.log("col = ", newCol);
-  } while(boardArray[newRow][newCol] !== 0);
+    console.log("row = ", newRow, " col = ", newCol);
+  } while(boardArray[newRow][newCol].value !== 0);
 
   var newElementNum = (Math.floor(Math.random() * 3) + 1) * 2;
   if(newElementNum === 6) {
@@ -84,41 +89,36 @@ function newElement() {
   }
   console.log("new number = ", newElementNum);
 
-  boardArray[newRow][newCol] = newElementNum;
+  boardArray[newRow][newCol].value = newElementNum;
 }
 
 function displayBoard() {
-  document.getElementById("uull").innerHTML = boardArray[0][0];
-  document.getElementById("uul").innerHTML = boardArray[0][1];
-  document.getElementById("uur").innerHTML = boardArray[0][2];
-  document.getElementById("uurr").innerHTML = boardArray[0][3];
+  document.getElementById("uull").innerHTML = boardArray[0][0].value;
+  document.getElementById("uul").innerHTML = boardArray[0][1].value;
+  document.getElementById("uur").innerHTML = boardArray[0][2].value;
+  document.getElementById("uurr").innerHTML = boardArray[0][3].value;
 
-  document.getElementById("ull").innerHTML = boardArray[1][0];
-  document.getElementById("ul").innerHTML = boardArray[1][1];
-  document.getElementById("ur").innerHTML = boardArray[1][2];
-  document.getElementById("urr").innerHTML = boardArray[1][3];
+  document.getElementById("ull").innerHTML = boardArray[1][0].value;
+  document.getElementById("ul").innerHTML = boardArray[1][1].value;
+  document.getElementById("ur").innerHTML = boardArray[1][2].value;
+  document.getElementById("urr").innerHTML = boardArray[1][3].value;
 
-  document.getElementById("dll").innerHTML = boardArray[2][0];
-  document.getElementById("dl").innerHTML = boardArray[2][1];
-  document.getElementById("dr").innerHTML = boardArray[2][2];
-  document.getElementById("drr").innerHTML = boardArray[2][3];
+  document.getElementById("dll").innerHTML = boardArray[2][0].value;
+  document.getElementById("dl").innerHTML = boardArray[2][1].value;
+  document.getElementById("dr").innerHTML = boardArray[2][2].value;
+  document.getElementById("drr").innerHTML = boardArray[2][3].value;
 
-  document.getElementById("ddll").innerHTML = boardArray[3][0];
-  document.getElementById("ddl").innerHTML = boardArray[3][1];
-  document.getElementById("ddr").innerHTML = boardArray[3][2];
-  document.getElementById("ddrr").innerHTML = boardArray[3][3];
-
-  console.log("full board array:");
-  console.log(boardArray[0]);
-  console.log(boardArray[1]);
-  console.log(boardArray[2]);
-  console.log(boardArray[3]);
+  document.getElementById("ddll").innerHTML = boardArray[3][0].value;
+  document.getElementById("ddl").innerHTML = boardArray[3][1].value;
+  document.getElementById("ddr").innerHTML = boardArray[3][2].value;
+  document.getElementById("ddrr").innerHTML = boardArray[3][3].value;
 }
 
 function clearBoard() {
   for(var i = 0; i < 4; i++){
     for(var j = 0; j < 4; j++){
-      boardArray[i][j] = 0;
+      boardArray[i][j].value = 0;
+      boardArray[i][j].combined = false;
     }
   }
   displayBoard();
@@ -127,7 +127,7 @@ function clearBoard() {
 function checkBoard() {
   for(var i = 0; i < 4; i++){
     for(var j = 0; j < 4; j++){
-      if(boardArray[i][j] === 0){
+      if(boardArray[i][j].value === 0){
         return;
       }
     }
@@ -136,11 +136,21 @@ function checkBoard() {
   window.alert("Game Over");
 }
 
+function clearCombinedAndTileMoved() {
+  for(var i = 0; i < 4; i++){
+    for(var j = 0; j < 4; j++){
+      boardArray[i][j].combined = false;
+    }
+  }
+  tileMoved = false;
+}
+
 function newGameButtonPress() {
   gameLost = false;
   clearBoard();
   newElement();
   newElement();
+  displayBoard();
 }
 
 function upButtonPress() {
@@ -148,18 +158,32 @@ function upButtonPress() {
 
   if(gameLost === false) {
     for(var k = 0; k < 4; k++) {
-      for(var i = 3; i > 0; i--) {
+      for(var i = 0; i < 3; i++) {
         for(var j = 0; j < 4; j++) {
-          if(boardArray[i][j] === boardArray[i-1][j] || boardArray[i-1][j] === 0){
-            moveElement(boardArray[i-1][j], boardArray[i][j], i-1, j);
-            deleteElement(i, j);
+          if(boardArray[i][j].value === boardArray[i+1][j].value &&
+          boardArray[i][j].combined === false &&
+          boardArray[i+1][j].combined === false &&
+          boardArray[i][j].value !== 0) {
+            moveElement(boardArray[i][j].value, boardArray[i+1][j].value, i, j);
+            boardArray[i][j].combined = true;
+            deleteElement(i+1, j);
+          }
+          else if(boardArray[i][j].value === 0 && boardArray[i+1][j].value !== 0) {
+            moveElement(boardArray[i][j].value, boardArray[i+1][j].value, i, j);
+            deleteElement(i+1, j);
+          }
+          else {
           }
         }
       }
     }
-    newElement();
+    console.log("tileMoved = ", tileMoved);
+    if(tileMoved === true) {
+      newElement();
+    }
     displayBoard();
     checkBoard();
+    clearCombinedAndTileMoved();
   }
   else {
     console.log("Gameover. Need to restart game.");
@@ -174,8 +198,8 @@ function downButtonPress() {
     for(var k = 0; k < 4; k++) {
       for(var i = 0; i < 3; i++) {
         for(var j = 0; j < 4; j++) {
-          if(boardArray[i][j] === boardArray[i+1][j] || boardArray[i+1][j] === 0){
-            moveElement(boardArray[i+1][j], boardArray[i][j], i+1, j);
+          if(boardArray[i][j].value === boardArray[i+1][j].value || boardArray[i+1][j].value === 0){
+            moveElement(boardArray[i+1][j].value, boardArray[i][j].value, i+1, j);
             deleteElement(i, j);
           }
         }
@@ -198,8 +222,8 @@ function leftButtonPress() {
     for(var k = 0; k < 4; k++) {
       for(var i = 0; i < 4; i++) {
         for(var j = 3; j > 0; j--) {
-          if(boardArray[i][j] === boardArray[i][j-1] || boardArray[i][j-1] === 0){
-            moveElement(boardArray[i][j-1], boardArray[i][j], i, j-1);
+          if(boardArray[i][j].value === boardArray[i][j-1].value || boardArray[i][j-1].value === 0){
+            moveElement(boardArray[i][j-1].value, boardArray[i][j].value, i, j-1);
             deleteElement(i, j);
           }
         }
@@ -222,8 +246,8 @@ function rightButtonPress() {
     for(var k = 0; k < 4; k++) {
       for(var i = 0; i < 4; i++) {
         for(var j = 0; j < 3; j++) {
-          if(boardArray[i][j] === boardArray[i][j+1] || boardArray[i][j+1] === 0){
-            moveElement(boardArray[i][j+1], boardArray[i][j], i, j+1);
+          if(boardArray[i][j].value === boardArray[i][j+1].value || boardArray[i][j+1].value === 0){
+            moveElement(boardArray[i][j+1].value, boardArray[i][j].value, i, j+1);
             deleteElement(i, j);
           }
         }
