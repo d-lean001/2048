@@ -1,14 +1,7 @@
 /*
 Still to do:
-1) fix bug... all numbers on same row are the same, go
-  left, instead of having 2 numbers on the far 2 left spots that are only a
-  combination of 2 of the numbers, displaying only 1 number that is a
-  combination of all 4.
-2) fix bug... if nothing moves, it should not count as a move and should not
-  create a new element
-3) when 3 tiles in a row have the same number and left is pressed, the wrong
-  output is displayed. ex:
-  [16,4,4,4] -> left pressed -> result -> [16,4,8,0] -> should be [16,8,4,0]
+1)
+
 
 */
 
@@ -125,6 +118,14 @@ function clearBoard() {
 }
 
 function checkBoard() {
+  for(var i = 0; i < 4; i++){
+    for(var j = 0; j < 4; j++){
+      if(boardArray[i][j].value === 2048){
+        window.alert("Congrats! You Win!")
+        return;
+      }
+    }
+  }
   if(gameLost === true){
     window.alert("Game Over. Click New Game to start over.");
   }
@@ -160,7 +161,6 @@ function newGameButtonPress() {
 function upButtonPress() {
   console.log("Up is pressed");
 
-  checkBoard();
   for(var k = 0; k < 4; k++) {
     for(var i = 0; i < 3; i++) {
       for(var j = 0; j < 4; j++) {
@@ -186,13 +186,13 @@ function upButtonPress() {
     newElement();
   }
   displayBoard();
+  checkBoard();
   clearCombinedAndTileMoved();
 }
 
 function downButtonPress() {
   console.log("Down is pressed");
 
-  checkBoard();
   for(var k = 0; k < 4; k++) {
     for(var i = 3; i > 0; i--) {
       for(var j = 0; j < 4; j++) {
@@ -218,13 +218,13 @@ function downButtonPress() {
     newElement();
   }
   displayBoard();
+  checkBoard();
   clearCombinedAndTileMoved();
 }
 
 function leftButtonPress() {
   console.log("Left is pressed");
 
-  checkBoard();
   for(var k = 0; k < 4; k++) {
     for(var i = 0; i < 4; i++) {
       for(var j = 0; j < 3; j++) {
@@ -250,13 +250,13 @@ function leftButtonPress() {
     newElement();
   }
   displayBoard();
+  checkBoard();
   clearCombinedAndTileMoved();
 }
 
 function rightButtonPress() {
   console.log("Right is pressed");
 
-  checkBoard();
   for(var k = 0; k < 4; k++) {
     for(var i = 0; i < 4; i++) {
       for(var j = 3; j > 0; j--) {
@@ -282,6 +282,7 @@ function rightButtonPress() {
     newElement();
   }
   displayBoard();
+  checkBoard();
   clearCombinedAndTileMoved();
 }
 
