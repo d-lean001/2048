@@ -8,16 +8,12 @@ Still to do:
 
 */
 
-var win = 0;
-var loss = 0;
 var gameLost = false;
 var tileMoved = false;
 var noMoveUp = false;
 var noMoveDown = false;
 var noMoveLeft = false;
 var noMoveRight = false;
-
-//document.getElementById("dl").style.backgroundColor = "blue";
 
 var boardArray = [
   [
@@ -48,27 +44,28 @@ var boardArray = [
 
 document.onkeydown = function(key) {
   if(key.keyCode == 37) {
-    console.log("Left arrow", key.keyCode)
+    console.log("Left arrow ", key.keyCode);
     leftButtonPress();
   }
   else if(key.keyCode == 38) {
-    console.log("Up arrow", key.keyCode);
+    console.log("Up arrow ", key.keyCode);
     upButtonPress();
   }
   else if(key.keyCode == 39) {
-    console.log("Right arrow", key.keyCode);
+    console.log("Right arrow ", key.keyCode);
     rightButtonPress();
   }
   else if(key.keyCode == 40) {
-    console.log("Down arrow", key.keyCode);
+    console.log("Down arrow ", key.keyCode);
     downButtonPress();
   }
   else {
-    console.log("other key pressed", key.keyCode)
+    console.log("other key pressed ", key.keyCode);
   }
 }
 
 function moveElement(increasingElement, element, newElementRow, newElementCol) {
+  console.log("moving element: ", element, " into element: ", increasingElement, " at row, col: ", newElementRow, ", ", newElementCol);
   boardArray[newElementRow][newElementCol].value = increasingElement + element;
   tileMoved = true;
   noMoveUp = false;
@@ -78,15 +75,18 @@ function moveElement(increasingElement, element, newElementRow, newElementCol) {
 }
 
 function deleteElement(row, col) {
+  console.log("deleting element at: ", row, ", ", col);
   boardArray[row][col].value = 0;
 }
 
 function newElement() {
+  console.log("making new element");
   do {
     var newRow = Math.floor(Math.random() * 4);
     var newCol = Math.floor(Math.random() * 4);
-    console.log("row = ", newRow, " col = ", newCol);
+    console.log("random row = ", newRow, " random col = ", newCol);
   } while(boardArray[newRow][newCol].value !== 0);
+  console.log("newElement row = ", newRow, " newElement col = ", newCol);
 
   var newElementNum = Math.floor(Math.random() * 10);
   if(newElementNum < 7) {
@@ -95,13 +95,16 @@ function newElement() {
   else {
     newElementNum = 4;
   }
-  console.log("new number = ", newElementNum);
+  console.log("newElement number = ", newElementNum);
 
   boardArray[newRow][newCol].value = newElementNum;
+
+  console.log("calling function to set color of new element");
   changeElementColor(newRow, newCol);
 }
 
 function displayBoard() {
+  console.log("displaying the board");
   document.getElementById("uull").innerHTML = boardArray[0][0].value;
   document.getElementById("uul").innerHTML = boardArray[0][1].value;
   document.getElementById("uur").innerHTML = boardArray[0][2].value;
@@ -124,6 +127,7 @@ function displayBoard() {
 }
 
 function clearBoard() {
+  console.log("clearing the boardArray to all 0");
   for(var i = 0; i < 4; i++){
     for(var j = 0; j < 4; j++){
       boardArray[i][j].value = 0;
@@ -131,10 +135,12 @@ function clearBoard() {
       changeElementColor(i, j);
     }
   }
+  console.log("calling function to display board");
   displayBoard();
 }
 
 function checkBoard() {
+  console.log("checking the board for win or loss");
   for(var i = 0; i < 4; i++){
     for(var j = 0; j < 4; j++){
       changeElementColor(i, j);
@@ -164,8 +170,9 @@ function clearCombinedAndTileMoved() {
 }
 
 function changeElementColor(row, col) {
+  console.log("changing element color at: ", row, ", ", col);
   var elementVal = boardArray[row][col].value;
-  console.log(elementVal);
+  console.log("element number is ", elementVal);
   switch(elementVal) {
     case 0:
       document.getElementById(boardArray[row][col].elementId).style.backgroundColor = "white";
@@ -203,10 +210,13 @@ function changeElementColor(row, col) {
     case 2048:
       document.getElementById(boardArray[row][col].elementId).style.backgroundColor = "red";
       break;
+    default:
+      break;
   }
 }
 
 function newGameButtonPress() {
+  console.log("new game button pressed");
   gameLost = false;
   clearBoard();
   newElement();
@@ -355,56 +365,8 @@ function rightButtonPress() {
 }
 
 
-
-
-
-//current test in progress
-/* recursive up button press... not really sure if this is better than normal.
-function recUpButtonPress(currentRow, currentCol, currentElement) {
-  console.log("currentRow = ", currentRow, "...currentCol = ", currentCol, "...currentElement = ", currentElement);
-  if(currentRow === 0) {
-    console.log("inside if");
-    boardArray[currentRow][currentCol] = currentElement;
-    return;
-  }
-  else if(boardArray[currentRow-1][currentCol] === 0) {
-    console.log("calling recursion - ", currentRow);
-    recUpButtonPress(currentRow-1, currentCol, currentElement);
-    console.log("out of recursion - ", currentRow);
-    deleteElement(currentRow, currentCol);
-  }
-  else if(currentElement === boardArray[currentRow-1][currentCol]){
-    console.log("found same numbers");
-    boardArray[currentRow-1][currentCol] = currentElement * 2;
-    deleteElement(currentRow, currentCol);
-    return;
-  }
-  else {
-    console.log("inside else");
-    boardArray[currentRow][currentCol] = currentElement;
-    return;
-  }
-}
-
-
-
 function currentTestPress() {
-  //document.getElementById("currentTest").innerHTML = "No test being performed.";
-  console.log("Testing recursive up button press");
-  for(var i = 0; i < 4; i++) {
-    for(var j = 0; j < 4; j++) {
-      recUpButtonPress(i, j, boardArray[i][j]);
-      displayBoard();
-    }
-  }
-}
-*/
-
-
-function currentTestPress() {
-  //document.getElementById("currentTest").innerHTML = "No test being performed.";
-  boardArray[1][1].color = 4;
-  changeElementColor(0,1);
+  document.getElementById("currentTest").innerHTML = "No test being performed.";
 
 }
 
