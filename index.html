@@ -19,6 +19,11 @@
   <button id="newGameButton" onclick="newGameButtonPress()">New Game</button>
 
   <hr>
+  <!--
+    Pre-filling a board can be bad for the UX
+    People that have bad internet can see this state for a little bit before
+    the script loads and populates it
+  -->
   <table id="gameBoard">
     <tr id="firstRow">
       <td id="uull">2</td>
@@ -69,7 +74,6 @@
   <br>
   <button id="clearButton" onclick="clearBoard()">Clear the Board</button>
 -->
-
   <script src="myScript.js"></script>
 </body>
 
