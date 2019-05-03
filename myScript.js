@@ -12,43 +12,58 @@ Still to do:
 // This statement should give you a good idea of Javascript:
 // "Don't use var, it's never right. We made something better but couldn't remove it"
 //    - Someone, Probably
-var gameLost = false;
+
+// DL: lol, makes more sense. changing all variable types.
+/*var gameLost = false;
 var tileMoved = false;
 var noMoveUp = false;
 var noMoveDown = false;
 var noMoveLeft = false;
 var noMoveRight = false;
+*/
+let gameLost = false;
+let tileMoved = false;
+let noMoveUp = false;
+let noMoveDown = false;
+let noMoveLeft = false;
+let noMoveRight = false;
+
 
 // I'd say remove this whole array definition
 // It's only pulling the initial state from the HTML, which isn't random and arguably wrong.
 // Keep the board state somewhere, you just might not need this initialization
 // We're pushing data to the UI, and the only input we care about is our event handlers, so we're mostly a push model
+
+// DL: removed pulling data from html. instead just initialized values to 0 for now. will rethink this later.
 var boardArray = [
   [
-    {value:Number(document.getElementById("uull").innerHTML), combined:false, elementId:"uull"},
-    {value:Number(document.getElementById("uul").innerHTML), combined:false, elementId:"uul"},
-    {value:Number(document.getElementById("uur").innerHTML), combined:false, elementId:"uur"},
-    {value:Number(document.getElementById("uurr").innerHTML), combined:false, elementId:"uurr"}
+    {value:0, combined:false, elementId:"uull"},
+    {value:0, combined:false, elementId:"uul"},
+    {value:0, combined:false, elementId:"uur"},
+    {value:0, combined:false, elementId:"uurr"}
   ],
   [
-    {value:Number(document.getElementById("ull").innerHTML), combined:false, elementId:"ull"},
-    {value:Number(document.getElementById("ul").innerHTML), combined:false, elementId:"ul"},
-    {value:Number(document.getElementById("ur").innerHTML), combined:false, elementId:"ur"},
-    {value:Number(document.getElementById("urr").innerHTML), combined:false, elementId:"urr"}
+    {value:0, combined:false, elementId:"ull"},
+    {value:0, combined:false, elementId:"ul"},
+    {value:0, combined:false, elementId:"ur"},
+    {value:0, combined:false, elementId:"urr"}
   ],
   [
-    {value:Number(document.getElementById("dll").innerHTML), combined:false, elementId:"dll"},
-    {value:Number(document.getElementById("dl").innerHTML), combined:false, elementId:"dl"},
-    {value:Number(document.getElementById("dr").innerHTML), combined:false, elementId:"dr"},
-    {value:Number(document.getElementById("drr").innerHTML), combined:false, elementId:"drr"}
+    {value:0, combined:false, elementId:"dll"},
+    {value:0, combined:false, elementId:"dl"},
+    {value:0, combined:false, elementId:"dr"},
+    {value:0, combined:false, elementId:"drr"}
   ],
   [
-    {value:Number(document.getElementById("ddll").innerHTML), combined:false, elementId:"ddll"},
-    {value:Number(document.getElementById("ddl").innerHTML), combined:false, elementId:"ddl"},
-    {value:Number(document.getElementById("ddr").innerHTML), combined:false, elementId:"ddr"},
-    {value:Number(document.getElementById("ddrr").innerHTML), combined:false, elementId:"ddrr"}
+    {value:0, combined:false, elementId:"ddll"},
+    {value:0, combined:false, elementId:"ddl"},
+    {value:0, combined:false, elementId:"ddr"},
+    {value:0, combined:false, elementId:"ddrr"}
   ]
 ];
+
+const numRows = boardArray.length;
+const numCols = boardArray[0].length;
 
 /*
   Javascript 'evolution' tidbit:
@@ -200,11 +215,8 @@ function displayBoard() {
 
 function clearBoard() {
   console.log("clearing the boardArray to all 0");
-  // magic numbers are bad
-  // height = boardArray.length
-  // width = boardArray[0].length
-  for(var i = 0; i < 4; i++){
-    for(var j = 0; j < 4; j++){
+  for(var i = 0; i < numRows; i++){
+    for(var j = 0; j < numCols; j++){
       boardArray[i][j].value = 0;
       boardArray[i][j].combined = false;
       changeElementColor(i, j);
@@ -216,9 +228,8 @@ function clearBoard() {
 
 function checkBoard() {
   console.log("checking the board for win or loss");
-  // magic numbers for iteration
-  for(var i = 0; i < 4; i++){
-    for(var j = 0; j < 4; j++){
+  for(var i = 0; i < numRows; i++){
+    for(var j = 0; j < numCols; j++){
       changeElementColor(i, j);
       if(boardArray[i][j].value === 2048){
         window.alert("Congrats! You Win!")
@@ -239,9 +250,8 @@ function checkBoard() {
 }
 
 function clearCombinedAndTileMoved() {
-  // magic numbers
-  for(var i = 0; i < 4; i++){
-    for(var j = 0; j < 4; j++){
+  for(var i = 0; i < numRows; i++){
+    for(var j = 0; j < numCols; j++){
       boardArray[i][j].combined = false;
     }
   }
@@ -358,6 +368,7 @@ function upButtonPress() {
       }
     }
   }
+
   console.log("tileMoved = ", tileMoved);
   if(tileMoved === true) {
     newElement();
@@ -466,6 +477,7 @@ function rightButtonPress() {
       }
     }
   }
+
   console.log("tileMoved = ", tileMoved);
   if(tileMoved === true) {
     newElement();
@@ -480,12 +492,53 @@ function rightButtonPress() {
 
 
 function currentTestPress() {
-  document.getElementById("currentTest").innerHTML = "No test being performed.";
+  //document.getElementById("currentTest").innerHTML = "No test being performed.";
+  let testArray = [
+    [4, 0, 4, 1],
+    [5, 6, 7, 8],
+    [9, 10, 11, 12],
+    [13, 14, 15, 16]
+  ];
+  const testNumRow = testArray.length;
+  const testNumCol = testArray[0].length;
 
+
+  console.log(testArray[0]);
+  shiftRight();
+    console.log(testArray[0]);
+
+  function shiftRight(){
+    for(var i = testNumCol - 1; i > 0; i--){
+      if(testArray[0][i] === testArray[0][i-1]){
+        testArray[0][i] *= 2;
+        testArray[0][i-1] = 0;
+      }
+      else if(testArray[0][i] === 0){
+        testArray[0][i] = testArray[0][i-1];
+        testArray[0][i-1] = 0;
+      }
+
+    }
+  }
+
+
+
+
+
+  /*
+  testArray.forEach(function(row, index){
+    console.log(row);
+    if(index < testArray.length - 1){
+      row = row + index;
+    }
+    console.log(row);
+  })
+  */
 }
 
 //for checking what's in the arrays
 function boardButtonPress() {
+  console.log("what's in the array:");
   /*
     boardArray.forEach(console.log)
     ==
@@ -497,8 +550,16 @@ function boardButtonPress() {
       console.log(boardArray[i]);
     }
   */
+  /*
   console.log(boardArray[0][0], boardArray[0][1], boardArray[0][2], boardArray[0][3]);
   console.log(boardArray[1][0], boardArray[1][1], boardArray[1][2], boardArray[1][3]);
   console.log(boardArray[2][0], boardArray[2][1], boardArray[2][2], boardArray[2][3]);
   console.log(boardArray[3][0], boardArray[3][1], boardArray[3][2], boardArray[3][3]);
+  */
+
+  boardArray.forEach(function(row){
+    row.forEach(function(element){
+      console.log(element.value);
+    })
+  })
 }
