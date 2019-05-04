@@ -82,43 +82,72 @@ document.onkeydown = ({keyCode}) => {
   switch(keyCode){
     case 37:
       console.log("Left");
-      move(-1, 0);
+      for(let i = 0; i < numCols; i++){
+        move(-1, 0, i);
+      }
       break;
     case 38:
       console.log("Up");
-      move(1, 0);
+      for(let i = 0; i < numCols; i++){
+        move(1, -1, i);
+      }
       break;
     case 39:
       console.log("Right");
-      move(-1, 1);
+      for(let i = 0; i < numCols; i++){
+        move(-1, 1, i);
+      }
       break;
     case 40:
       console.log("Down");
-      move(0, 0);
+      for(let i = 0; i < numCols; i++){
+        move(0, -1, i);
+      }
       break;
     default:
       break;
   }
+  newElement();
+  displayBoard();
 }
 
-function move(isUp, index){
-  let start = isUp ? 0 : numRows-1;
-  let end = isUp ? numRows-1 : 0;
-  let direction = isUp ? 1 : -1;
+function move(isUp, isRight, index){
+  if(isUp === -1){
+    let startRight = isRight ? numCols-1 : 0;
+    let endRight = isRight ? 0 : numCols-1;
+    let directionRight = isRight ? -1 : 1;
 
-  for(; (direction * start) < (direction * end); start += direction){
-    //boardArray[start][index].value = boardArray[start + direction][index].value;
-    //boardArray[start + direction][index].value = 0;
-    if(boardArray[start][index].value === boardArray[start + direction][index].value){
-      boardArray[start][index].value *= 2;
-      boardArray[start + direction][index].value = 0;
-    }
-    else if(boardArray[start][index].value === 0){
-      boardArray[start][index].value = boardArray[start + direction][index].value;
-      boardArray[start + direction][index].value = 0;
+    for(; (directionRight * startRight) < (directionRight * endRight); startRight += directionRight){
+      //boardArray[start][index].value = boardArray[start + direction][index].value;
+      //boardArray[start + direction][index].value = 0;
+      if(boardArray[index][startRight].value === boardArray[index][startRight + directionRight].value){
+        boardArray[index][startRight].value *= 2;
+        boardArray[index][startRight + directionRight].value = 0;
+      }
+      else if(boardArray[index][startRight].value === 0){
+        boardArray[index][startRight].value = boardArray[index][startRight + directionRight].value;
+        boardArray[index][startRight + directionRight].value = 0;
+      }
     }
   }
-  displayBoard();
+  else{
+    let startUp = isUp ? 0 : numRows-1;
+    let endUp = isUp ? numRows-1 : 0;
+    let directionUp = isUp ? 1 : -1;
+
+    for(; (directionUp * startUp) < (directionUp * endUp); startUp += directionUp){
+      //boardArray[start][index].value = boardArray[start + direction][index].value;
+      //boardArray[start + direction][index].value = 0;
+      if(boardArray[startUp][index].value === boardArray[startUp + directionUp][index].value){
+        boardArray[startUp][index].value *= 2;
+        boardArray[startUp + directionUp][index].value = 0;
+      }
+      else if(boardArray[startUp][index].value === 0){
+        boardArray[startUp][index].value = boardArray[startUp + directionUp][index].value;
+        boardArray[startUp + directionUp][index].value = 0;
+      }
+    }
+  }
 }
 
   // If there's a nested value repeatedly referenced, I'd say pull it out into a variable.
