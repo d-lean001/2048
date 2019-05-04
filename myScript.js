@@ -37,28 +37,28 @@ let noMoveRight = false;
 // DL: removed pulling data from html. instead just initialized values to 0 for now. will rethink this later.
 let boardArray = [
   [
-    {value:0, combined:false, elementId:"uull"},
-    {value:0, combined:false, elementId:"uul"},
-    {value:0, combined:false, elementId:"uur"},
-    {value:0, combined:false, elementId:"uurr"}
+    {value:0, combined:false},
+    {value:0, combined:false},
+    {value:0, combined:false},
+    {value:0, combined:false}
   ],
   [
-    {value:0, combined:false, elementId:"ull"},
-    {value:0, combined:false, elementId:"ul"},
-    {value:0, combined:false, elementId:"ur"},
-    {value:0, combined:false, elementId:"urr"}
+    {value:0, combined:false},
+    {value:0, combined:false},
+    {value:0, combined:false},
+    {value:0, combined:false}
   ],
   [
-    {value:0, combined:false, elementId:"dll"},
-    {value:0, combined:false, elementId:"dl"},
-    {value:0, combined:false, elementId:"dr"},
-    {value:0, combined:false, elementId:"drr"}
+    {value:0, combined:false},
+    {value:0, combined:false},
+    {value:0, combined:false},
+    {value:0, combined:false}
   ],
   [
-    {value:0, combined:false, elementId:"ddll"},
-    {value:0, combined:false, elementId:"ddl"},
-    {value:0, combined:false, elementId:"ddr"},
-    {value:0, combined:false, elementId:"ddrr"}
+    {value:0, combined:false},
+    {value:0, combined:false},
+    {value:0, combined:false},
+    {value:0, combined:false}
   ]
 ];
 
@@ -107,7 +107,7 @@ document.onkeydown = ({keyCode}) => {
     default:
       break;
   }
-  newElement();
+  //newElement();
   displayBoard();
 }
 
@@ -116,10 +116,28 @@ function move(isUp, isRight, index){
     let startRight = isRight ? numCols-1 : 0;
     let endRight = isRight ? 0 : numCols-1;
     let directionRight = isRight ? -1 : 1;
+    let tmpRight = startRight;
+
+    /*
+    while((directionRight * tmpRight) < (directionRight * endRight)){
+      if((directionRight * startRight) < (directionRight * endRight)){
+        if(boardArray[index][startRight].value === boardArray[index][startRight + directionRight].value){
+          boardArray[index][startRight].value *= 2;
+          boardArray[index][startRight + directionRight].value = 0;
+        }
+        else if(boardArray[index][startRight].value === 0){
+          boardArray[index][startRight].value = boardArray[index][startRight + directionRight].value;
+          boardArray[index][startRight + directionRight].value = 0;
+        }
+        startRight += directionRight;
+      }
+      else{
+        tmpRight += directionRight;
+        startRight = tmpRight;
+      }
+    }*/
 
     for(; (directionRight * startRight) < (directionRight * endRight); startRight += directionRight){
-      //boardArray[start][index].value = boardArray[start + direction][index].value;
-      //boardArray[start + direction][index].value = 0;
       if(boardArray[index][startRight].value === boardArray[index][startRight + directionRight].value){
         boardArray[index][startRight].value *= 2;
         boardArray[index][startRight + directionRight].value = 0;
@@ -271,6 +289,7 @@ function displayBoard() {
   for(let i = 0; i < numRows; i++){
     for(let j = 0; j < numRows; j++){
       board.rows[i].cells[j].innerHTML = boardArray[i][j].value;
+      changeElementColor(i, j);
     }
   }
   /*
@@ -352,40 +371,63 @@ function changeElementColor(row, col) {
   console.log("element number is ", elementVal);
   switch(elementVal) {
     case 0:
-      document.getElementById(boardArray[row][col].elementId).style.backgroundColor = "white";
+      //document.getElementById(boardArray[row][col].elementId).style.backgroundColor = "white";
+      console.log(document.getElementById("gameBoard").rows[row].cells[col]);
+      document.getElementById("gameBoard").rows[row].cells[col].classList = "zero";
       break;
     case 2:
-      document.getElementById(boardArray[row][col].elementId).style.backgroundColor = "#ffff99";
+      //document.getElementById(boardArray[row][col].elementId).style.backgroundColor = "#ffff99";
+      console.log(document.getElementById("gameBoard").rows[row].cells[col]);
+      document.getElementById("gameBoard").rows[row].cells[col].classList = "two";
       break;
     case 4:
-      document.getElementById(boardArray[row][col].elementId).style.backgroundColor = "#ffff66";
+      console.log(document.getElementById("gameBoard").rows[row].cells[col].classList);
+      document.getElementById("gameBoard").rows[row].cells[col].classList = "four";
       break;
     case 8:
-      document.getElementById(boardArray[row][col].elementId).style.backgroundColor = "#ffff00";
+      //document.getElementById(boardArray[row][col].elementId).style.backgroundColor = "#ffff00";
+      console.log(document.getElementById("gameBoard").rows[row].cells[col]);
+      document.getElementById("gameBoard").rows[row].cells[col].classList = "eight";
       break;
     case 16:
-      document.getElementById(boardArray[row][col].elementId).style.backgroundColor = "#ccffcc";
+      //document.getElementById(boardArray[row][col].elementId).style.backgroundColor = "#ccffcc";
+      console.log(document.getElementById("gameBoard").rows[row].cells[col]);
+      document.getElementById("gameBoard").rows[row].cells[col].classList = "sixteen";
       break;
     case 32:
-      document.getElementById(boardArray[row][col].elementId).style.backgroundColor = "#99ff99";
+      //document.getElementById(boardArray[row][col].elementId).style.backgroundColor = "#99ff99";
+      console.log(document.getElementById("gameBoard").rows[row].cells[col]);
+      document.getElementById("gameBoard").rows[row].cells[col].classList = "thirytwo";
       break;
     case 64:
-      document.getElementById(boardArray[row][col].elementId).style.backgroundColor = "#66ff66";
+      //document.getElementById(boardArray[row][col].elementId).style.backgroundColor = "#66ff66";
+      console.log(document.getElementById("gameBoard").rows[row].cells[col]);
+      document.getElementById("gameBoard").rows[row].cells[col].classList = "sixtyfour";
       break;
     case 128:
-      document.getElementById(boardArray[row][col].elementId).style.backgroundColor = "#ccffff";
+      //document.getElementById(boardArray[row][col].elementId).style.backgroundColor = "#ccffff";
+      console.log(document.getElementById("gameBoard").rows[row].cells[col]);
+      document.getElementById("gameBoard").rows[row].cells[col].classList = "onetwenyeight";
       break;
     case 256:
-      document.getElementById(boardArray[row][col].elementId).style.backgroundColor = "#66ffff";
+      //document.getElementById(boardArray[row][col].elementId).style.backgroundColor = "#66ffff";
+      console.log(document.getElementById("gameBoard").rows[row].cells[col]);
+      document.getElementById("gameBoard").rows[row].cells[col].classList = "twofiftysix";
       break;
     case 512:
-      document.getElementById(boardArray[row][col].elementId).style.backgroundColor = "#00ffff";
+      //document.getElementById(boardArray[row][col].elementId).style.backgroundColor = "#00ffff";
+      console.log(document.getElementById("gameBoard").rows[row].cells[col]);
+      document.getElementById("gameBoard").rows[row].cells[col].classList = "fivetwelve";
       break;
     case 1024:
-      document.getElementById(boardArray[row][col].elementId).style.backgroundColor = "#ff9966";
+      //document.getElementById(boardArray[row][col].elementId).style.backgroundColor = "#ff9966";
+      console.log(document.getElementById("gameBoard").rows[row].cells[col]);
+      document.getElementById("gameBoard").rows[row].cells[col].classList = "tentwentyfour";
       break;
     case 2048:
-      document.getElementById(boardArray[row][col].elementId).style.backgroundColor = "red";
+      //document.getElementById(boardArray[row][col].elementId).style.backgroundColor = "red";
+      console.log(document.getElementById("gameBoard").rows[row].cells[col]);
+      document.getElementById("gameBoard").rows[row].cells[col].classList = "twentyfortyeight";
       break;
     default:
       break;
