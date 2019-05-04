@@ -82,44 +82,51 @@ document.onkeydown = ({keyCode}) => {
   switch(keyCode){
     case 37:
       console.log("Left");
-      for(let i = 0; i < numCols; i++){
-        move(-1, 0, i);
-      }
+      //for(let k = 0; k < numCols; k++){
+        for(let i = 0; i < numCols; i++){
+          move(-1, 0, i);
+        }
+      //}
+
       break;
     case 38:
       console.log("Up");
-      for(let i = 0; i < numCols; i++){
-        move(1, -1, i);
-      }
+      //for(let k = 0; k < numCols; k++){
+        for(let i = 0; i < numCols; i++){
+          move(1, -1, i);
+        }
+      //}
       break;
     case 39:
       console.log("Right");
-      for(let i = 0; i < numCols; i++){
-        move(-1, 1, i);
-      }
+      //for(let k = 0; k < numCols; k++){
+        for(let i = 0; i < numCols; i++){
+          move(-1, 1, i);
+        }
+      //}
       break;
     case 40:
       console.log("Down");
-      for(let i = 0; i < numCols; i++){
-        move(0, -1, i);
-      }
+      //for(let k = 0; k < numCols; k++){
+        for(let i = 0; i < numCols; i++){
+          move(0, -1, i);
+        }
+      //}
       break;
     default:
       break;
   }
-  //newElement();
+  newElement();
   displayBoard();
 }
 
 function move(isUp, isRight, index){
-  if(isUp === -1){
-    /*let startRight = isRight ? 0 : numCols-1;
+  /*let startRight = isRight ? 0 : numCols-1;
     let endRight = isRight ? numCols-1 : 0;
     let directionRight = isRight ? 1 : -1;
-    let tmpRight = startRight;
+    let headRight = startRight;
 
-
-    while((directionRight * tmpRight) < (directionRight * endRight)){
+    while((directionRight * headRight) < (directionRight * endRight)){
       if((directionRight * startRight) < (directionRight * endRight)){
         if(boardArray[index][startRight].value === boardArray[index][startRight + directionRight].value){
           boardArray[index][startRight + directionRight].value *= 2;
@@ -132,44 +139,10 @@ function move(isUp, isRight, index){
         startRight += directionRight;
       }
       else{
-        tmpRight += directionRight;
-        startRight = tmpRight;
+        headRight += directionRight;
+        startRight = headRight;
       }
-    }*/
 
-
-    let startRight = isRight ? numCols-1 : 0;
-    let endRight = isRight ? 0 : numCols-1;
-    let directionRight = isRight ? -1 : 1;
-    let tmpRight = startRight;
-
-    for(; (directionRight * startRight) < (directionRight * endRight); startRight += directionRight){
-      if(boardArray[index][startRight].value === boardArray[index][startRight + directionRight].value){
-        boardArray[index][startRight].value *= 2;
-        boardArray[index][startRight + directionRight].value = 0;
-      }
-      else if(boardArray[index][startRight].value === 0){
-        boardArray[index][startRight].value = boardArray[index][startRight + directionRight].value;
-        boardArray[index][startRight + directionRight].value = 0;
-      }
-    }
-  }
-  else{
-    let startUp = isUp ? 0 : numRows-1;
-    let endUp = isUp ? numRows-1 : 0;
-    let directionUp = isUp ? 1 : -1;
-
-    for(; (directionUp * startUp) < (directionUp * endUp); startUp += directionUp){
-      if(boardArray[startUp][index].value === boardArray[startUp + directionUp][index].value){
-        boardArray[startUp][index].value *= 2;
-        boardArray[startUp + directionUp][index].value = 0;
-      }
-      else if(boardArray[startUp][index].value === 0){
-        boardArray[startUp][index].value = boardArray[startUp + directionUp][index].value;
-        boardArray[startUp + directionUp][index].value = 0;
-      }
-    }
-    /*
     let startUp = isUp ? numRows-1 : 0;
     let endUp = isUp ? 0 : numRows-1;
     let directionUp = isUp ? -1 : 1;
@@ -192,6 +165,76 @@ function move(isUp, isRight, index){
         startUp = tmpUp;
       }
     }*/
+
+  if(isUp === -1){
+    /*let startRight = isRight ? numCols-1 : 0;
+    let endRight = isRight ? 0 : numCols-1;
+    let directionRight = isRight ? -1 : 1;
+
+    for(; (directionRight * startRight) < (directionRight * endRight); startRight += directionRight){
+      if(boardArray[index][startRight].value === boardArray[index][startRight + directionRight].value){
+        boardArray[index][startRight].value *= 2;
+        boardArray[index][startRight + directionRight].value = 0;
+      }
+      else if(boardArray[index][startRight].value === 0){
+        boardArray[index][startRight].value = boardArray[index][startRight + directionRight].value;
+        boardArray[index][startRight + directionRight].value = 0;
+      }
+    }*/
+    let startRight = isRight ? numCols-1 : 0;
+    let endRight = isRight ? 0 : numCols-1;
+    let directionRight = isRight ? -1 : 1;
+    let headRight = startRight;
+    let movedRight = false;
+
+    while((directionRight * headRight) < (directionRight * endRight)){
+      if((directionRight * startRight) < (directionRight * endRight)){
+        if(boardArray[index][startRight].value === 0 && boardArray[index][startRight + directionRight].value !== 0){
+          boardArray[index][startRight].value = boardArray[index][startRight + directionRight].value;
+          boardArray[index][startRight + directionRight].value = 0;
+          startRight += directionRight;
+          movedRight = true;
+        }
+        else{
+          startRight += directionRight;
+        }
+
+        if(boardArray[index][headRight].value === boardArray[index][headRight + directionRight].value && (boardArray[index][headRight].value !== 0)){
+          boardArray[index][headRight].value *= 2;
+          boardArray[index][headRight + directionRight].value = 0;
+          headRight += directionRight;
+        }
+        else if((boardArray[index][headRight].value !== boardArray[index][headRight + directionRight].value) && (boardArray[index][headRight].value !== 0) && (boardArray[index][headRight + directionRight].value !== 0)){
+          //&& (boardArray[index][headRight + directionRight].value !== 0
+          headRight += directionRight;
+        }
+      }
+      else{
+        if(movedRight === false){
+          break;
+        }
+        else{
+          startRight = headRight;
+          movedRight = false;
+        }
+      }
+    }
+  }
+  else{
+    let startUp = isUp ? 0 : numRows-1;
+    let endUp = isUp ? numRows-1 : 0;
+    let directionUp = isUp ? 1 : -1;
+
+    for(; (directionUp * startUp) < (directionUp * endUp); startUp += directionUp){
+      if(boardArray[startUp][index].value === boardArray[startUp + directionUp][index].value){
+        boardArray[startUp][index].value *= 2;
+        boardArray[startUp + directionUp][index].value = 0;
+      }
+      else if(boardArray[startUp][index].value === 0){
+        boardArray[startUp][index].value = boardArray[startUp + directionUp][index].value;
+        boardArray[startUp + directionUp][index].value = 0;
+      }
+    }
   }
 }
 
