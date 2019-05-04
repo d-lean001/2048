@@ -113,21 +113,21 @@ document.onkeydown = ({keyCode}) => {
 
 function move(isUp, isRight, index){
   if(isUp === -1){
-    let startRight = isRight ? numCols-1 : 0;
-    let endRight = isRight ? 0 : numCols-1;
-    let directionRight = isRight ? -1 : 1;
+    /*let startRight = isRight ? 0 : numCols-1;
+    let endRight = isRight ? numCols-1 : 0;
+    let directionRight = isRight ? 1 : -1;
     let tmpRight = startRight;
 
-    /*
+
     while((directionRight * tmpRight) < (directionRight * endRight)){
       if((directionRight * startRight) < (directionRight * endRight)){
         if(boardArray[index][startRight].value === boardArray[index][startRight + directionRight].value){
-          boardArray[index][startRight].value *= 2;
-          boardArray[index][startRight + directionRight].value = 0;
+          boardArray[index][startRight + directionRight].value *= 2;
+          boardArray[index][startRight].value = 0;
         }
-        else if(boardArray[index][startRight].value === 0){
-          boardArray[index][startRight].value = boardArray[index][startRight + directionRight].value;
-          boardArray[index][startRight + directionRight].value = 0;
+        else if(boardArray[index][startRight + directionRight].value === 0){
+          boardArray[index][startRight + directionRight].value = boardArray[index][startRight].value;
+          boardArray[index][startRight].value = 0;
         }
         startRight += directionRight;
       }
@@ -136,6 +136,12 @@ function move(isUp, isRight, index){
         startRight = tmpRight;
       }
     }*/
+
+
+    let startRight = isRight ? numCols-1 : 0;
+    let endRight = isRight ? 0 : numCols-1;
+    let directionRight = isRight ? -1 : 1;
+    let tmpRight = startRight;
 
     for(; (directionRight * startRight) < (directionRight * endRight); startRight += directionRight){
       if(boardArray[index][startRight].value === boardArray[index][startRight + directionRight].value){
@@ -154,8 +160,6 @@ function move(isUp, isRight, index){
     let directionUp = isUp ? 1 : -1;
 
     for(; (directionUp * startUp) < (directionUp * endUp); startUp += directionUp){
-      //boardArray[start][index].value = boardArray[start + direction][index].value;
-      //boardArray[start + direction][index].value = 0;
       if(boardArray[startUp][index].value === boardArray[startUp + directionUp][index].value){
         boardArray[startUp][index].value *= 2;
         boardArray[startUp + directionUp][index].value = 0;
@@ -165,6 +169,29 @@ function move(isUp, isRight, index){
         boardArray[startUp + directionUp][index].value = 0;
       }
     }
+    /*
+    let startUp = isUp ? numRows-1 : 0;
+    let endUp = isUp ? 0 : numRows-1;
+    let directionUp = isUp ? -1 : 1;
+    let tmpUp = startUp;
+
+    while((directionUp * tmpUp) < (directionUp * endUp)){
+      if((directionUp * startUp) < (directionUp * endUp)){
+        if(boardArray[startUp + directionUp][index].value === boardArray[startUp][index].value){
+          boardArray[startUp + directionUp][index].value *= 2;
+          boardArray[startUp][index].value = 0;
+        }
+        else if(boardArray[startUp + directionUp][index].value === 0){
+          boardArray[startUp + directionUp][index].value = boardArray[startUp][index].value;
+          boardArray[startUp][index].value = 0;
+        }
+        startUp += directionUp;
+      }
+      else{
+        tmpUp += directionUp;
+        startUp = tmpUp;
+      }
+    }*/
   }
 }
 
@@ -231,7 +258,7 @@ document.onkeydown = ({ keyCode }) => {
 }
 */
 
-
+/*
 function moveElement(increasingElement, element, newElementRow, newElementCol) {
   console.log("moving element: ", element, " into element: ", increasingElement, " at row, col: ", newElementRow, ", ", newElementCol);
   // I don't think we need this to be a separate utility
@@ -242,13 +269,13 @@ function moveElement(increasingElement, element, newElementRow, newElementCol) {
   noMoveDown = false;
   noMoveLeft = false;
   noMoveRight = false;
-}
-
+}*/
+/*
 // probably don't need a util function for this one
 function deleteElement(row, col) {
   console.log("deleting element at: ", row, ", ", col);
   boardArray[row][col].value = 0;
-}
+}*/
 
 // How can we test this function?
 function newElement() {
