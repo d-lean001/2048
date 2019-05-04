@@ -35,7 +35,7 @@ let noMoveRight = false;
 // We're pushing data to the UI, and the only input we care about is our event handlers, so we're mostly a push model
 
 // DL: removed pulling data from html. instead just initialized values to 0 for now. will rethink this later.
-var boardArray = [
+let boardArray = [
   [
     {value:0, combined:false, elementId:"uull"},
     {value:0, combined:false, elementId:"uul"},
@@ -77,7 +77,50 @@ const numCols = boardArray[0].length;
   }
   because people got tired of writing `function`
 */
-document.onkeydown = function(key) {
+
+document.onkeydown = ({keyCode}) => {
+  switch(keyCode){
+    case 37:
+      console.log("Left");
+      move(-1, 0);
+      break;
+    case 38:
+      console.log("Up");
+      move(1, 0);
+      break;
+    case 39:
+      console.log("Right");
+      move(-1, 1);
+      break;
+    case 40:
+      console.log("Down");
+      move(0, 0);
+      break;
+    default:
+      break;
+  }
+}
+
+function move(isUp, index){
+  let start = isUp ? 0 : numRows-1;
+  let end = isUp ? numRows-1 : 0;
+  let direction = isUp ? 1 : -1;
+
+  for(; (direction * start) < (direction * end); start += direction){
+    //boardArray[start][index].value = boardArray[start + direction][index].value;
+    //boardArray[start + direction][index].value = 0;
+    if(boardArray[start][index].value === boardArray[start + direction][index].value){
+      boardArray[start][index].value *= 2;
+      boardArray[start + direction][index].value = 0;
+    }
+    else if(boardArray[start][index].value === 0){
+      boardArray[start][index].value = boardArray[start + direction][index].value;
+      boardArray[start + direction][index].value = 0;
+    }
+  }
+  displayBoard();
+}
+
   // If there's a nested value repeatedly referenced, I'd say pull it out into a variable.
   // const keyCode = key.keyCode
   /*
@@ -94,6 +137,8 @@ document.onkeydown = function(key) {
       ...
     }
   */
+/*
+document.onkeydown = function(key) {
   if(key.keyCode == 37) {
     console.log("Left arrow ", key.keyCode);
     leftButtonPress();
@@ -115,6 +160,7 @@ document.onkeydown = function(key) {
   }
   // switch > elseif
 }
+*/
 
 /*
 Here's how I'd write it:
@@ -174,7 +220,7 @@ function newElement() {
   } while(boardArray[newRow][newCol].value !== 0);
   console.log("newElement row = ", newRow, " newElement col = ", newCol);
 
-  var newElementNum = Math.floor(Math.random() * 10);
+  let newElementNum = Math.floor(Math.random() * 10);
   if(newElementNum < 7) {
     newElementNum = 2;
   }
@@ -192,6 +238,13 @@ function newElement() {
 function displayBoard() {
   // Hard code this less
   console.log("displaying the board");
+  const board = document.getElementById("gameBoard");
+  for(let i = 0; i < numRows; i++){
+    for(let j = 0; j < numRows; j++){
+      board.rows[i].cells[j].innerHTML = boardArray[i][j].value;
+    }
+  }
+  /*
   document.getElementById("uull").innerHTML = boardArray[0][0].value;
   document.getElementById("uul").innerHTML = boardArray[0][1].value;
   document.getElementById("uur").innerHTML = boardArray[0][2].value;
@@ -211,12 +264,13 @@ function displayBoard() {
   document.getElementById("ddl").innerHTML = boardArray[3][1].value;
   document.getElementById("ddr").innerHTML = boardArray[3][2].value;
   document.getElementById("ddrr").innerHTML = boardArray[3][3].value;
+  */
 }
 
 function clearBoard() {
   console.log("clearing the boardArray to all 0");
-  for(var i = 0; i < numRows; i++){
-    for(var j = 0; j < numCols; j++){
+  for(let i = 0; i < numRows; i++){
+    for(let j = 0; j < numCols; j++){
       boardArray[i][j].value = 0;
       boardArray[i][j].combined = false;
       changeElementColor(i, j);
@@ -228,8 +282,8 @@ function clearBoard() {
 
 function checkBoard() {
   console.log("checking the board for win or loss");
-  for(var i = 0; i < numRows; i++){
-    for(var j = 0; j < numCols; j++){
+  for(let i = 0; i < numRows; i++){
+    for(let j = 0; j < numCols; j++){
       changeElementColor(i, j);
       if(boardArray[i][j].value === 2048){
         window.alert("Congrats! You Win!")
@@ -250,8 +304,8 @@ function checkBoard() {
 }
 
 function clearCombinedAndTileMoved() {
-  for(var i = 0; i < numRows; i++){
-    for(var j = 0; j < numCols; j++){
+  for(let i = 0; i < numRows; i++){
+    for(let j = 0; j < numCols; j++){
       boardArray[i][j].combined = false;
     }
   }
@@ -265,7 +319,7 @@ function clearCombinedAndTileMoved() {
 */
 function changeElementColor(row, col) {
   console.log("changing element color at: ", row, ", ", col);
-  var elementVal = boardArray[row][col].value;
+  let elementVal = boardArray[row][col].value;
   console.log("element number is ", elementVal);
   switch(elementVal) {
     case 0:
@@ -344,6 +398,9 @@ function newGameButtonPress() {
   >[0,0,HEAD(16),2,4]
 */
 
+
+
+/*
 function upButtonPress() {
   console.log("Up is pressed");
 
@@ -490,36 +547,26 @@ function rightButtonPress() {
   clearCombinedAndTileMoved();
 }
 
+*/
+
 
 function currentTestPress() {
   //document.getElementById("currentTest").innerHTML = "No test being performed.";
   let testArray = [
-    [4, 0, 4, 1],
+    [4, 4, 4, 4],
     [5, 6, 7, 8],
-    [9, 10, 11, 12],
+    [5, 10, 11, 12],
     [13, 14, 15, 16]
   ];
   const testNumRow = testArray.length;
   const testNumCol = testArray[0].length;
 
 
-  console.log(testArray[0]);
-  shiftRight();
-    console.log(testArray[0]);
+  //console.log(testArray);
+  //move(key);
 
-  function shiftRight(){
-    for(var i = testNumCol - 1; i > 0; i--){
-      if(testArray[0][i] === testArray[0][i-1]){
-        testArray[0][i] *= 2;
-        testArray[0][i-1] = 0;
-      }
-      else if(testArray[0][i] === 0){
-        testArray[0][i] = testArray[0][i-1];
-        testArray[0][i-1] = 0;
-      }
-
-    }
-  }
+  console.log("testing displaying using table id");
+  document.getElementById("gameBoard").rows[0].cells[1].innerHTML = 12;
 
 
 
