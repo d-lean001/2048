@@ -7,7 +7,6 @@ Still to do:
 
 
 */
-let gameLost = false;
 let tileMoved = false;
 
 let boardArray = [
@@ -134,22 +133,29 @@ document.onkeydown = ({keyCode}) => {
   }
 
   if(tileMoved === true){
-    newElement();
+    newElement({arr: boardArray});
     tileMoved = false;
   }
-  displayBoard();
+  displayBoard({arr: boardArray});
   checkBoard();
 }
 
-function getPosition(){
-  let newRow = Math.floor(Math.random() * 4);
-  let newCol = Math.floor(Math.random() * 4);
-  console.log("random row = ", newRow, " random col = ", newCol);
-  while(boardArray[newRow][newCol] !== 0){
-    newRow = Math.floor(Math.random() * 4);
-    newCol = Math.floor(Math.random() * 4);
+function getPosition({
+  arr = [
+    [0,0],
+    [0,0]
+  ]
+}){
+  const tmpRows = arr.length;
+  const tmpCols = arr[0].length;
+  let newRow = Math.floor(Math.random() * tmpRows);
+  let newCol = Math.floor(Math.random() * tmpCols);
+  //console.log("random row = ", newRow, " random col = ", newCol);
+  while(arr[newRow][newCol] !== 0){
+    newRow = Math.floor(Math.random() * tmpRows);
+    newCol = Math.floor(Math.random() * tmpCols);
   }
-  console.log("newElement row = ", newRow, " newElement col = ", newCol);
+  //console.log("newElement row = ", newRow, " newElement col = ", newCol);
   return {newRow, newCol};
 }
 
@@ -164,48 +170,60 @@ function getNewValue(){
   //console.log("newElement number = ", newElementNum);
 }
 
-function newElement() {
+function newElement({
+  arr = [
+    [0,0],
+    [0,0]
+  ]
+}) {
   //console.log("making new element");
-  const {newRow, newCol} = getPosition();
+  const {newRow, newCol} = getPosition({arr: arr});
   const value = getNewValue();
-  boardArray[newRow][newCol] = value;
+  arr[newRow][newCol] = value;
+  return arr;
 }
 
-function displayBoard() {
-  console.log("displaying the board");
+///////////////////////////////////////////////////////////////////////////////
+//////fix this for pushing game board to single id
+//////instead of an already generated HTML table
+///////////////////////////////////////////////////////////////////////////////
+function displayBoard({
+  arr = [
+    [0,0],
+    [0,0]
+  ]
+}) {
+  //console.log("displaying the board");
+  const tmpRows = arr.length;
+  const tmpCols = arr[0].length;
   const board = document.getElementById("gameBoard");
-  for(let i = 0; i < numRows; i++){
-    for(let j = 0; j < numRows; j++){
-      board.rows[i].cells[j].innerHTML = boardArray[i][j];
+  for(let i = 0; i < tmpRows; i++){
+    for(let j = 0; j < tmpCols; j++){
+      board.rows[i].cells[j].innerHTML = arr[i][j];
       changeElementColor(i, j);
     }
   }
-}
-
-function clearBoard() {
-  console.log("clearing the boardArray to all 0");
-  for(let i = 0; i < numRows; i++){
-    for(let j = 0; j < numCols; j++){
-      boardArray[i][j] = 0;
-      changeElementColor(i, j);
-    }
-  }
-  console.log("calling function to display board");
-  displayBoard();
+  return arr;
 }
 
 function checkWin({
-  arr = boardArray
+  arr = [
+    [0,0],
+    [0,0]
+  ]
 }){
   //console.log("checking the board for win or loss");
-  for(let i = 0; i < numRows; i++){
-    for(let j = 0; j < numCols; j++){
+  const tmpRows = arr.length;
+  const tmpCols = arr[0].length;
+  for(let i = 0; i < tmpRows; i++){
+    for(let j = 0; j < tmpCols; j++){
       if(arr[i][j] === 2048){
         window.alert("Congrats! You Win!")
         return;
       }
     }
   }
+  return arr;
 }
 
 function checkLose({
@@ -220,7 +238,7 @@ function checkLose({
   for(let i = 0; i < tmpRow; i++){
     for(let j = 0; j < tmpCol; j++){
       let pos = arr[i][j];
-      console.log("pos:",pos);
+      //console.log("pos:",pos);
       if(pos === 0){
         return false;
       }
@@ -267,12 +285,18 @@ function checkLose({
   return true;
 }
 
-function checkBoard() {
-  console.log("checking board");
-  checkWin({arr: boardArray});
-  if(checkLose({arr: boardArray})){
+function checkBoard({
+  arr = [
+    [0,0],
+    [0,0]
+  ]
+}) {
+  //console.log("checking board");
+  checkWin({arr: arr});
+  if(checkLose({arr: arr})){
     window.alert("Game Over. Click New Game to start over.");
   }
+  return arr;
 }
 
 function changeElementColor(row, col) {
@@ -333,14 +357,37 @@ function changeElementColor(row, col) {
   }
 }
 
+function clearBoard({
+  arr = [
+    [0,0],
+    [0,0]
+  ]
+}) {
+  //console.log("clearing the boardArray to all 0");
+  const tmpRows = arr.length;
+  const tmpCols = arr[0].length;
+  for(let i = 0; i < tmpRows; i++){
+    for(let j = 0; j < tmpCols; j++){
+      arr[i][j] = 0;
+    }
+  }
+  //console.log("calling function to display board");
+  displayBoard({arr: boardArray});
+  return arr;
+}
+
 function newGameButtonPress() {
   console.log("new game button pressed");
-  gameLost = false;
-  clearBoard();
-  newElement();
-  newElement();
-  displayBoard();
+  clearBoard({arr: boardArray});
+  newElement({arr: boardArray});
+  newElement({arr: boardArray});
+  displayBoard({arr: boardArray});
 }
+
+
+///////////////////////////////////////////////////////////////////////////////
+//////// the following used for trying new things and testing it //////////////
+///////////////////////////////////////////////////////////////////////////////
 
 function currentTestPress() {
   document.getElementById("currentTest").innerHTML = "No test being performed.";
