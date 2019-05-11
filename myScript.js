@@ -1,3 +1,7 @@
+///////////////////////////////////////////////////////////////////////////////
+// Global Variables
+///////////////////////////////////////////////////////////////////////////////
+
 let tileMoved = false;
 
 let boardArray = [
@@ -9,6 +13,10 @@ let boardArray = [
 
 const numRows = boardArray.length;
 const numCols = boardArray[0].length;
+
+///////////////////////////////////////////////////////////////////////////////
+// Movement functions
+///////////////////////////////////////////////////////////////////////////////
 
 let shiftRow = ({
   isLeft = false,
@@ -131,6 +139,63 @@ document.onkeydown = ({keyCode}) => {
   checkBoard({arr: boardArray});
 }
 
+///////////////////////////////////////////////////////////////////////////////
+// functions to just get onscreen buttons to work
+// look into this to see if there's a better way to handle this
+///////////////////////////////////////////////////////////////////////////////
+
+function upButtonPress(){
+  for(let i = 0; i < numCols; i++){
+    shiftCol({isUp: true, index: i, arr: boardArray});
+  }
+  if(tileMoved === true){
+    newElement({arr: boardArray});
+    tileMoved = false;
+  }
+  displayBoard({arr: boardArray});
+  checkBoard({arr: boardArray});
+}
+
+function leftButtonPress(){
+  for(let i = 0; i < numRows; i++){
+    shiftRow({isLeft: true, arr: boardArray[i]});
+  }
+  if(tileMoved === true){
+    newElement({arr: boardArray});
+    tileMoved = false;
+  }
+  displayBoard({arr: boardArray});
+  checkBoard({arr: boardArray});
+}
+
+function rightButtonPress(){
+  for(let i = 0; i < numRows; i++){
+    shiftRow({isLeft: false, arr: boardArray[i]});
+  }
+  if(tileMoved === true){
+    newElement({arr: boardArray});
+    tileMoved = false;
+  }
+  displayBoard({arr: boardArray});
+  checkBoard({arr: boardArray});
+}
+
+function downButtonPress(){
+  for(let i = 0; i < numCols; i++){
+    shiftCol({isUp: false, index: i, arr: boardArray});
+  }
+  if(tileMoved === true){
+    newElement({arr: boardArray});
+    tileMoved = false;
+  }
+  displayBoard({arr: boardArray});
+  checkBoard({arr: boardArray});
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// functions for creating new element
+///////////////////////////////////////////////////////////////////////////////
+
 function getPosition({
   arr = [
     [0,0],
@@ -175,27 +240,8 @@ function newElement({
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-//////fix this for pushing game board to single id
-//////instead of an already generated HTML table
+// functions to check win and loss
 ///////////////////////////////////////////////////////////////////////////////
-function displayBoard({
-  arr = [
-    [0,0],
-    [0,0]
-  ]
-}) {
-  //console.log("displaying the board");
-  const tmpRows = arr.length;
-  const tmpCols = arr[0].length;
-  const board = document.getElementById("gameBoard");
-  for(let i = 0; i < tmpRows; i++){
-    for(let j = 0; j < tmpCols; j++){
-      board.rows[i].cells[j].innerHTML = arr[i][j];
-      changeElementColor({row: i, col: j, arr: arr});
-    }
-  }
-  return arr;
-}
 
 function checkWin({
   arr = [
@@ -290,6 +336,30 @@ function checkBoard({
   return arr;
 }
 
+///////////////////////////////////////////////////////////////////////////////
+// functions to display board and tile colors
+//////fix this for pushing game board to single id
+//////instead of an already generated HTML table
+///////////////////////////////////////////////////////////////////////////////
+function displayBoard({
+  arr = [
+    [0,0],
+    [0,0]
+  ]
+}) {
+  //console.log("displaying the board");
+  const tmpRows = arr.length;
+  const tmpCols = arr[0].length;
+  const board = document.getElementById("gameBoard");
+  for(let i = 0; i < tmpRows; i++){
+    for(let j = 0; j < tmpCols; j++){
+      board.rows[i].cells[j].innerHTML = arr[i][j];
+      changeElementColor({row: i, col: j, arr: arr});
+    }
+  }
+  return arr;
+}
+
 function changeElementColor({
   row = 0,
   col = 0,
@@ -354,6 +424,10 @@ function changeElementColor({
       break;
   }
 }
+
+///////////////////////////////////////////////////////////////////////////////
+// functions for new game
+///////////////////////////////////////////////////////////////////////////////
 
 function clearBoard({
   arr = [
