@@ -78,6 +78,171 @@ const numCols = boardArray[0].length;
   because people got tired of writing `function`
 */
 
+/*const {
+  nested: {
+    key = 'default'
+  } = {},
+  date_modified
+} = await getResponse();
+shiftRow2({
+  row: []
+
+
+  if(isUp === true)
+    console.log("up is true");
+  else if(isUp === false)
+    console.log("up is false");
+  else if(isUp === undefined)
+    console.log("up is undefined?");
+})*/
+
+let shiftRow = ({
+  isLeft = false,
+  arr = [0, 0]
+}) => {
+  let rowLen = arr.length;
+  let head = isLeft ? 0 : rowLen - 1;
+  let end = isLeft ? rowLen : -1;
+  let direction = isLeft ? 1 : -1;
+  let index = head + direction;
+
+  for(; (index * direction) < (end * direction); index += direction){
+    if(arr[index] !== 0){
+      if(arr[index] === arr[head]){
+        arr[head] += arr[index];
+        arr[index] = 0;
+        head += direction;
+      }
+      else if(arr[head] !== 0){
+        arr[head + direction] = arr[index];
+        arr[index] = 0;
+        head += direction;
+      }
+      else{
+        arr[head] = arr[index];
+        arr[index] = 0;
+      }
+    }
+
+  }
+  return arr;
+}
+
+let shiftCol = ({
+  isUp = false,
+  arr = [
+    [0,0],
+    [0,0]
+  ]
+}) => {
+  let colLen = arr.length;
+  let head = isUp ? 0 : colLen - 1;
+  let end = isUp ? colLen : -1;
+  let direction = isUp ? 1 : -1;
+  let index = head + direction;
+
+  for(; (index * direction) < (end * direction); index += direction){
+    if(arr[index][0] !== 0){
+      if(arr[index][0] === arr[head][0]){
+        arr[head][0] += arr[index][0];
+        arr[index][0] = 0;
+        head += direction;
+      }
+      else if(arr[head][0] !== 0){
+        arr[head + direction][0] = arr[index][0];
+        arr[index][0] = 0;
+        head += direction;
+      }
+      else{
+        arr[head][0] = arr[index][0];
+        arr[index][0] = 0;
+      }
+    }
+
+  }
+  return arr;
+}
+
+/*
+let shiftRow = ({
+  isLeft,
+  isUp,
+  index,
+  array = [[0,0], [0,0]]
+}) => {
+  let rowLen = array[0].length;
+  let colLen = array.length;
+
+  let headLeft;
+  let endLeft;
+  let directionLeft;
+  let itrLeft;
+
+  let headUp;
+  let endUp;
+  let directionUp;
+  let itrUp;
+
+
+  if(isLeft === undefined){
+    headLeft = index;
+  }
+  else if(!left){
+    headLeft = rowLen - 1;
+    endLeft = 0;
+    direction = -1;
+    itrLeft = headLeft + directionLeft;
+  }
+  else{
+    headLeft = 0;
+    endLeft = rowLen;
+    direction = 1;
+    itrLeft = headLeft + directionLeft;
+  }
+
+  if(isUp === undefined){
+    headUp = index;
+  }
+  else if(!isUp){
+    headUp = colLen - 1;
+    endUp = 0;
+    direction = -1;
+    itrUp = headUp + directionUp;
+  }
+  else{
+    headUp = 0;
+    endUp = colLen;
+    direction = 1;
+    itrUp = headUp + directionUp;
+  }
+
+  //let head = isLeft ? 0 : rowLen - 1;
+  //let end = isLeft ? rowLen : 0;
+  //let direction = isLeft ? 1 : -1;
+  //let itr = head + direction;
+
+  for(; (itr * direction) < (end * direction); itr += direction){
+    if(array[itrUp][itrLeft] !== 0){
+      if(array[0][head] === array[0][itr]){
+        array[0][head] += array[0][itr];
+        array[0][itr] = 0;
+        head += direction;
+      }
+      else if(array[0][head] !== 0){
+        array[0][head + direction] = array[0][itr];
+        array[0][itr] = 0;
+        head += direction;
+      }
+      else{
+        array[0][head] = array[0][itr];
+        array[0][itr] = 0;
+      }
+    }
+  }
+  return array;
+}
+*/
+
 document.onkeydown = ({keyCode}) => {
   switch(keyCode){
     case 37:
