@@ -463,20 +463,30 @@ function newGameButtonPress() {
 
 function currentTestPress() {
   //document.getElementById("currentTest").innerHTML = "No test being performed.";
+
   //var testTable = document.createElement("myTestTable");
   const testTable = document.getElementById("testDiv");
-  let testFirstRow = testTable.insertRow(0);
+  //let testFirstRow = testTable.insertRow(0);
   //let testCell0 = testFirstRow.insertCell(0);
   //let testCell1 = testFirstRow.insertCell(1);
   //testCell0.innerHTML = "Hello World";
   //testCell1.innerHTML = "Goodbye";
 
-  for(let i = 0; i < 4; i++){
-    let testRow = testTable.insertRow(i);
-    for(let j = 0; j < 4; j++){
-      let testCell = testRow.insertCell(j);
-      testCell.innerHTML = j;
+  if(testTable.rows.length !== 0 && testTable.rows[0].cells.length !== 0){
+    console.log("not an empty table");
+  }
+  else{
+    console.log("creating rows/cols in the table");
+    for(let i = 0; i < 4; i++){
+      let testRow = testTable.insertRow(i);
+      for(let j = 0; j < 7; j++){
+        let testCell = testRow.insertCell(j);
+        testCell.textContent = i+j;
+      }
     }
+    console.log("textContent:", testTable.rows[3].cells[3].textContent);
+    console.log("row length:", testTable.rows.length);
+    console.log("cell length:", testTable.rows[0].cells.length)
   }
 }
 
