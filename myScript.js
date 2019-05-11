@@ -1,12 +1,3 @@
-/*
-Still to do:
-1) bug... if board is full, but still able to make a move, still gameover.
-  should be able to make a move first before actual game over.
-  ===> half fixed. made flags to check if any movement was done in any direction
-    if movement was attempted in all directions but nothing moved, this means game over
-
-
-*/
 let tileMoved = false;
 
 let boardArray = [
@@ -200,7 +191,7 @@ function displayBoard({
   for(let i = 0; i < tmpRows; i++){
     for(let j = 0; j < tmpCols; j++){
       board.rows[i].cells[j].innerHTML = arr[i][j];
-      changeElementColor(i, j);
+      changeElementColor({row: i, col: j, arr: arr});
     }
   }
   return arr;
@@ -299,9 +290,16 @@ function checkBoard({
   return arr;
 }
 
-function changeElementColor(row, col) {
+function changeElementColor({
+  row = 0,
+  col = 0,
+  arr = [
+    [0,0],
+    [0,0]
+  ]
+}){
   //console.log("changing element color at: ", row, ", ", col);
-  let elementVal = boardArray[row][col];
+  const elementVal = arr[row][col];
   //console.log("element number is ", elementVal);
   switch(elementVal) {
     case 0:
