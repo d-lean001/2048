@@ -9,10 +9,6 @@ Still to do:
 */
 let gameLost = false;
 let tileMoved = false;
-let noMoveUp = false;
-let noMoveDown = false;
-let noMoveLeft = false;
-let noMoveRight = false;
 
 let boardArray = [
   [0, 0, 0, 0],
@@ -42,11 +38,13 @@ let shiftRow = ({
         arr[head] += arr[itr];
         arr[itr] = 0;
         head += direction;
+        tileMoved = true;
       }
       else if(arr[head] !== 0 && itr !== head + direction){
         arr[head + direction] = arr[itr];
         arr[itr] = 0;
         head += direction;
+        tileMoved = true;
       }
       else if(arr[head] !== 0 && itr === head + direction){
         head += direction;
@@ -54,6 +52,7 @@ let shiftRow = ({
       else if(arr[head] === 0){
         arr[head] = arr[itr];
         arr[itr] = 0;
+        tileMoved = true;
       }
     }
 
@@ -69,7 +68,7 @@ let shiftCol = ({
     [0,0]
   ]
 }) => {
-  console.log("shifting col");
+  //console.log("shifting col");
   let colLen = arr.length;
   let head = isUp ? 0 : colLen - 1;
   let end = isUp ? colLen : -1;
@@ -82,11 +81,13 @@ let shiftCol = ({
         arr[head][index] += arr[itr][index];
         arr[itr][index] = 0;
         head += direction;
+        tileMoved = true;
       }
       else if(arr[head][index] !== 0 && itr !== head + direction){
         arr[head + direction][index] = arr[itr][index];
         arr[itr][index] = 0;
         head += direction;
+        tileMoved = true;
       }
       else if(arr[head][index] !== 0 && itr === head + direction){
         head += direction;
@@ -94,6 +95,7 @@ let shiftCol = ({
       else{
         arr[head][index] = arr[itr][index];
         arr[itr][index] = 0;
+        tileMoved = true;
       }
     }
 
@@ -130,40 +132,43 @@ document.onkeydown = ({keyCode}) => {
     default:
       break;
   }
-  newElement();
+
+  if(tileMoved === true){
+    newElement();
+    tileMoved = false;
+  }
   displayBoard();
+  checkBoard();
 }
 
-// How can we test this function?
-function newElement() {
-  //console.log("making new element");
-  /*
-  shoot me for these but how about
-  const { x, y } = getPosition(); // write this function
-  const value = getNewValue(); // write this function
-  board[y][x] = value;
-  ... change class for color, detailed later
-  */
-  do {
-    var newRow = Math.floor(Math.random() * 4);
-    var newCol = Math.floor(Math.random() * 4);
-    //console.log("random row = ", newRow, " random col = ", newCol);
-  } while(boardArray[newRow][newCol] !== 0);
-  //console.log("newElement row = ", newRow, " newElement col = ", newCol);
+function getPosition(){
+  let newRow = Math.floor(Math.random() * 4);
+  let newCol = Math.floor(Math.random() * 4);
+  console.log("random row = ", newRow, " random col = ", newCol);
+  while(boardArray[newRow][newCol] !== 0){
+    newRow = Math.floor(Math.random() * 4);
+    newCol = Math.floor(Math.random() * 4);
+  }
+  console.log("newElement row = ", newRow, " newElement col = ", newCol);
+  return {newRow, newCol};
+}
 
-  let newElementNum = Math.floor(Math.random() * 10);
+function getNewValue(){
+  const newElementNum = Math.floor(Math.random() * 10);
   if(newElementNum < 7) {
-    newElementNum = 2;
+    return 2;
   }
   else {
-    newElementNum = 4;
+    return 4;
   }
   //console.log("newElement number = ", newElementNum);
+}
 
-  boardArray[newRow][newCol] = newElementNum;
-
-  //console.log("calling function to set color of new element");
-  changeElementColor(newRow, newCol);
+function newElement() {
+  //console.log("making new element");
+  const {newRow, newCol} = getPosition();
+  const value = getNewValue();
+  boardArray[newRow][newCol] = value;
 }
 
 function displayBoard() {
@@ -189,26 +194,84 @@ function clearBoard() {
   displayBoard();
 }
 
-function checkBoard() {
-  console.log("checking the board for win or loss");
+function checkWin({
+  arr = boardArray
+}){
+  //console.log("checking the board for win or loss");
   for(let i = 0; i < numRows; i++){
     for(let j = 0; j < numCols; j++){
-      changeElementColor(i, j);
-      if(boardArray[i][j] === 2048){
+      if(arr[i][j] === 2048){
         window.alert("Congrats! You Win!")
         return;
       }
     }
   }
-  if(gameLost === true){
-    window.alert("Game Over. Click New Game to start over.");
-  }
-  else{
-    // these only get set if the user explicitly tries to move in every direction
-    // Is there a way to check that prior to user action?
-    if(noMoveUp && noMoveDown && noMoveLeft && noMoveRight){
-      gameLost = true;
+}
+
+function checkLose({
+  arr = [
+    [0,0],
+    [0,0]
+  ]
+}){
+  let tmpRow = arr.length;
+  let tmpCol = arr[0].length;
+
+  for(let i = 0; i < tmpRow; i++){
+    for(let j = 0; j < tmpCol; j++){
+      let pos = arr[i][j];
+      console.log("pos:",pos);
+      if(pos === 0){
+        return false;
+      }
+
+      if(i === 0){
+        //check only bottom
+        if(pos !== 0 && pos === arr[i+1][j]){
+          return false;
+        }
+      }
+      else if(i === tmpRow - 1){
+        //check only top
+        if(pos !== 0 && pos === arr[i-1][j]){
+          return false;
+        }
+      }
+      else{
+        //check both bottom and top
+        if(pos !== 0 && (pos === arr[i-1][j] || pos === arr[i+1][j])){
+          return false;
+        }
+      }
+
+      if(j === 0){
+        //check only right
+        if(pos !== 0 && pos === arr[i][j+1]){
+          return false;
+        }
+      }
+      else if(j === tmpCol - 1){
+        //check only left
+        if(pos !== 0 && pos === arr[i][j-1]){
+          return false;
+        }
+      }
+      else{
+        //check both left and right
+        if(pos !== 0 && (pos === arr[i][j-1] || pos === arr[i][j+1])){
+          return false;
+        }
+      }
     }
+  }
+  return true;
+}
+
+function checkBoard() {
+  console.log("checking board");
+  checkWin({arr: boardArray});
+  if(checkLose({arr: boardArray})){
+    window.alert("Game Over. Click New Game to start over.");
   }
 }
 
