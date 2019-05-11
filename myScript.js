@@ -14,6 +14,8 @@ let boardArray = [
 const numRows = boardArray.length;
 const numCols = boardArray[0].length;
 
+const boardArr = document.getElementById("gameBoard");
+
 ///////////////////////////////////////////////////////////////////////////////
 // Movement functions
 ///////////////////////////////////////////////////////////////////////////////
@@ -135,7 +137,7 @@ document.onkeydown = ({keyCode}) => {
     newElement({arr: boardArray});
     tileMoved = false;
   }
-  displayBoard({arr: boardArray});
+  displayBoard({arr: boardArray, board: boardArr});
   checkBoard({arr: boardArray});
 }
 
@@ -152,7 +154,7 @@ function upButtonPress(){
     newElement({arr: boardArray});
     tileMoved = false;
   }
-  displayBoard({arr: boardArray});
+  displayBoard({arr: boardArray, board: boardArr});
   checkBoard({arr: boardArray});
 }
 
@@ -164,7 +166,7 @@ function leftButtonPress(){
     newElement({arr: boardArray});
     tileMoved = false;
   }
-  displayBoard({arr: boardArray});
+  displayBoard({arr: boardArray, board: boardArr});
   checkBoard({arr: boardArray});
 }
 
@@ -176,7 +178,7 @@ function rightButtonPress(){
     newElement({arr: boardArray});
     tileMoved = false;
   }
-  displayBoard({arr: boardArray});
+  displayBoard({arr: boardArray, board: boardArr});
   checkBoard({arr: boardArray});
 }
 
@@ -188,7 +190,7 @@ function downButtonPress(){
     newElement({arr: boardArray});
     tileMoved = false;
   }
-  displayBoard({arr: boardArray});
+  displayBoard({arr: boardArray, board: boardArr});
   checkBoard({arr: boardArray});
 }
 
@@ -345,15 +347,16 @@ function displayBoard({
   arr = [
     [0,0],
     [0,0]
-  ]
+  ],
+  board = document.getElementById("testDiv")
 }) {
   //console.log("displaying the board");
   const tmpRows = arr.length;
   const tmpCols = arr[0].length;
-  const board = document.getElementById("gameBoard");
+  //const board = boardArr;
   for(let i = 0; i < tmpRows; i++){
     for(let j = 0; j < tmpCols; j++){
-      board.rows[i].cells[j].innerHTML = arr[i][j];
+      board.rows[i].cells[j].textContent = arr[i][j];
       changeElementColor({row: i, col: j, arr: arr});
     }
   }
@@ -373,52 +376,52 @@ function changeElementColor({
   //console.log("element number is ", elementVal);
   switch(elementVal) {
     case 0:
-      //console.log(document.getElementById("gameBoard").rows[row].cells[col]);
-      document.getElementById("gameBoard").rows[row].cells[col].classList = "zero";
+      //console.log(boardArr.rows[row].cells[col]);
+      boardArr.rows[row].cells[col].classList = "zero";
       break;
     case 2:
-      //console.log(document.getElementById("gameBoard").rows[row].cells[col]);
-      document.getElementById("gameBoard").rows[row].cells[col].classList = "two";
+      //console.log(boardArr.rows[row].cells[col]);
+      boardArr.rows[row].cells[col].classList = "two";
       break;
     case 4:
-      //console.log(document.getElementById("gameBoard").rows[row].cells[col]);
-      document.getElementById("gameBoard").rows[row].cells[col].classList = "four";
+      //console.log(boardArr.rows[row].cells[col]);
+      boardArr.rows[row].cells[col].classList = "four";
       break;
     case 8:
-      //console.log(document.getElementById("gameBoard").rows[row].cells[col]);
-      document.getElementById("gameBoard").rows[row].cells[col].classList = "eight";
+      //console.log(boardArr.rows[row].cells[col]);
+      boardArr.rows[row].cells[col].classList = "eight";
       break;
     case 16:
-      //console.log(document.getElementById("gameBoard").rows[row].cells[col]);
-      document.getElementById("gameBoard").rows[row].cells[col].classList = "sixteen";
+      //console.log(boardArr.rows[row].cells[col]);
+      boardArr.rows[row].cells[col].classList = "sixteen";
       break;
     case 32:
-      //console.log(document.getElementById("gameBoard").rows[row].cells[col]);
-      document.getElementById("gameBoard").rows[row].cells[col].classList = "thirytwo";
+      //console.log(boardArr.rows[row].cells[col]);
+      boardArr.rows[row].cells[col].classList = "thirytwo";
       break;
     case 64:
-      //console.log(document.getElementById("gameBoard").rows[row].cells[col]);
-      document.getElementById("gameBoard").rows[row].cells[col].classList = "sixtyfour";
+      //console.log(boardArr.rows[row].cells[col]);
+      boardArr.rows[row].cells[col].classList = "sixtyfour";
       break;
     case 128:
-      //console.log(document.getElementById("gameBoard").rows[row].cells[col]);
-      document.getElementById("gameBoard").rows[row].cells[col].classList = "onetwenyeight";
+      //console.log(boardArr.rows[row].cells[col]);
+      boardArr.rows[row].cells[col].classList = "onetwenyeight";
       break;
     case 256:
-      //console.log(document.getElementById("gameBoard").rows[row].cells[col]);
-      document.getElementById("gameBoard").rows[row].cells[col].classList = "twofiftysix";
+      //console.log(boardArr.rows[row].cells[col]);
+      boardArr.rows[row].cells[col].classList = "twofiftysix";
       break;
     case 512:
-      //console.log(document.getElementById("gameBoard").rows[row].cells[col]);
-      document.getElementById("gameBoard").rows[row].cells[col].classList = "fivetwelve";
+      //console.log(boardArr.rows[row].cells[col]);
+      boardArr.rows[row].cells[col].classList = "fivetwelve";
       break;
     case 1024:
-      //console.log(document.getElementById("gameBoard").rows[row].cells[col]);
-      document.getElementById("gameBoard").rows[row].cells[col].classList = "tentwentyfour";
+      //console.log(boardArr.rows[row].cells[col]);
+      boardArr.rows[row].cells[col].classList = "tentwentyfour";
       break;
     case 2048:
-      //console.log(document.getElementById("gameBoard").rows[row].cells[col]);
-      document.getElementById("gameBoard").rows[row].cells[col].classList = "twentyfortyeight";
+      //console.log(boardArr.rows[row].cells[col]);
+      boardArr.rows[row].cells[col].classList = "twentyfortyeight";
       break;
     default:
       break;
@@ -444,16 +447,42 @@ function clearBoard({
     }
   }
   //console.log("calling function to display board");
-  displayBoard({arr: boardArray});
+  //displayBoard({arr: boardArray}, );
   return arr;
 }
 
-function newGameButtonPress() {
+function createTable({
+  rows = 1,
+  cols = 1,
+  table = document.getElementById("testDiv"),
+  tableStartingValues = 0
+}){
+  console.log("creating rows/cols in the table");
+  for(let i = 0; i < rows; i++){
+    let testRow = table.insertRow(i);
+    for(let j = 0; j < cols; j++){
+      let testCell = testRow.insertCell(j);
+      testCell.textContent = tableStartingValues;
+    }
+  }
+  return table;
+}
+
+function newGameButtonPress(){
   console.log("new game button pressed");
-  clearBoard({arr: boardArray});
+  //console.log("board rows:", board.rows.length);
+  //console.log("board cols:", board.rows[0].cells.length);
+  if(boardArr.rows.length !== 0 && boardArr.rows[0].cells.length !== 0){
+    console.log("table exists with rows/cols");
+    clearBoard({arr: boardArray});
+  }
+  else{
+    console.log("table has no rows/cols");
+    createTable({rows: numRows, cols: numCols, table: boardArr, tableStartingValues: 0});
+  }
   newElement({arr: boardArray});
   newElement({arr: boardArray});
-  displayBoard({arr: boardArray});
+  displayBoard({arr: boardArray, board: boardArr});
 }
 
 
@@ -465,7 +494,7 @@ function currentTestPress() {
   //document.getElementById("currentTest").innerHTML = "No test being performed.";
 
   //var testTable = document.createElement("myTestTable");
-  const testTable = document.getElementById("testDiv");
+  const testTable = boardArr;
   //let testFirstRow = testTable.insertRow(0);
   //let testCell0 = testFirstRow.insertCell(0);
   //let testCell1 = testFirstRow.insertCell(1);
