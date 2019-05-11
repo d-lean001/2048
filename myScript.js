@@ -128,7 +128,7 @@ document.onkeydown = ({keyCode}) => {
     tileMoved = false;
   }
   displayBoard({arr: boardArray});
-  checkBoard();
+  checkBoard({arr: boardArray});
 }
 
 function getPosition({
