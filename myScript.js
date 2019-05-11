@@ -462,7 +462,22 @@ function newGameButtonPress() {
 ///////////////////////////////////////////////////////////////////////////////
 
 function currentTestPress() {
-  document.getElementById("currentTest").innerHTML = "No test being performed.";
+  //document.getElementById("currentTest").innerHTML = "No test being performed.";
+  //var testTable = document.createElement("myTestTable");
+  const testTable = document.getElementById("testDiv");
+  let testFirstRow = testTable.insertRow(0);
+  //let testCell0 = testFirstRow.insertCell(0);
+  //let testCell1 = testFirstRow.insertCell(1);
+  //testCell0.innerHTML = "Hello World";
+  //testCell1.innerHTML = "Goodbye";
+
+  for(let i = 0; i < 4; i++){
+    let testRow = testTable.insertRow(i);
+    for(let j = 0; j < 4; j++){
+      let testCell = testRow.insertCell(j);
+      testCell.innerHTML = j;
+    }
+  }
 }
 
 //for checking what's in the arrays
