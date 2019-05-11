@@ -3,11 +3,11 @@
 <head>
   <title>David's 2048</title>
   <link rel="stylesheet" href="style.css">
-  <!-- <script src="myScript.js"></script> -->
 </head>
 
 <body>
   <h1>David's 2048 Game</h1>
+<!--
   <pre>
     Instructions:
       New Game Button - Clears board and starts a new game
@@ -16,6 +16,7 @@
       Try to get a tile to 2048 or higher to win
       You lose if you can't move anymore
   </pre>
+-->
   <button id="newGameButton" onclick="newGameButtonPress()">New Game</button>
 
   <hr>
@@ -23,31 +24,33 @@
     Pre-filling a board can be bad for the UX
     People that have bad internet can see this state for a little bit before
     the script loads and populates it
+
+    DL: makes sense. didn't think of that. removed initialization of table data
   -->
   <table id="gameBoard">
     <tr id="firstRow">
-      <td id="uull">2</td>
-      <td id="uul">0</td>
-      <td id="uur">0</td>
-      <td id="uurr">0</td>
+      <td id="uull"></td>
+      <td id="uul"></td>
+      <td id="uur"></td>
+      <td id="uurr"></td>
     </tr>
     <tr id="secondRow">
-      <td id="ull">0</td>
-      <td id="ul">0</td>
-      <td id="ur">0</td>
-      <td id="urr">0</td>
+      <td id="ull"></td>
+      <td id="ul"></td>
+      <td id="ur"></td>
+      <td id="urr"></td>
     </tr>
     <tr id="thirdRow">
-      <td id="dll">0</td>
-      <td id="dl">0</td>
-      <td id="dr">0</td>
-      <td id="drr">0</td>
+      <td id="dll"></td>
+      <td id="dl"></td>
+      <td id="dr"></td>
+      <td id="drr"></td>
     </tr>
     <tr id="fourthRow">
-      <td id="ddll">0</td>
-      <td id="ddl">0</td>
-      <td id="ddr">0</td>
-      <td id="ddrr">0</td>
+      <td id="ddll"></td>
+      <td id="ddl"></td>
+      <td id="ddr"></td>
+      <td id="ddrr"></td>
     </tr>
   </table>
 
@@ -65,6 +68,7 @@
   <br>
 
 <!-- was used for testing
+-->
   <br>
   <button id="currentTest" onclick="currentTestPress()">Current Test</button>
   <br>
@@ -73,7 +77,7 @@
   <button id="boardButton" onclick="boardButtonPress()">What's on the Board?</button>
   <br>
   <button id="clearButton" onclick="clearBoard()">Clear the Board</button>
--->
+
   <script src="myScript.js"></script>
 </body>
 
