@@ -20,6 +20,117 @@ const boardArr = document.getElementById("gameBoard");
 // Movement functions
 ///////////////////////////////////////////////////////////////////////////////
 
+let shift = ({
+  isLeft = undefined,
+  isUp = undefined,
+  index = 0,
+  arr = [
+    [0,0],
+    [0,0]
+  ]
+}) => {
+  //console.log("shifting");
+  let colLen = arr.length;
+  let rowLen = arr[0].length;
+
+  let xhead = 0;
+  let yhead = 0;
+  let xitr = 0;
+  let yitr = 0;
+  let end = 0;
+  let xdirection = 1;
+  let ydirection = 1;
+
+  switch(isLeft){
+    case true:
+      //console.log("is left");
+      xhead = 0;
+      yhead = index;
+      end = rowLen;
+      xdirection = 1;
+      ydirection = 0;
+      xitr = xhead + xdirection;
+      yitr = index;
+      break;
+    case false:
+      //console.log("is right");
+      xhead = rowLen - 1;
+      yhead = index;
+      end = -1;
+      xdirection = -1;
+      ydirection = 0;
+      xitr = xhead + xdirection;
+      yitr = index;
+      break;
+    case undefined:
+      break;
+    default:
+      break;
+  }
+  switch(isUp){
+    case true:
+      //console.log("is up");
+      xhead = index;
+      yhead = 0;
+      end = colLen;
+      xdirection = 0;
+      ydirection = 1;
+      xitr = index;
+      yitr = yhead + ydirection;
+      break;
+    case false:
+      //console.log("is down");
+      xhead = index;
+      yhead = colLen - 1;
+      end = -1;
+      xdirection = 0;
+      ydirection = -1;
+      xitr = index;
+      yitr = yhead + ydirection;
+      break;
+    case undefined:
+      break;
+    default:
+      break;
+  }
+
+  for(; ((xitr * xdirection) < (end * xdirection)) || ((yitr * ydirection) < (end * ydirection));){
+    //console.log("xitr:", xitr, " yitr:", yitr, " xhead: ", xhead, " yhead: ", yhead, " end: ", end, " xdirection: ", xdirection, " ydirection: ", ydirection, " arr[yitr][xitr]: ", arr[yitr][xitr]);
+    if(arr[yitr][xitr] !== 0){
+      if(arr[yitr][xitr] === arr[yhead][xhead]){
+        //console.log("same");
+        arr[yhead][xhead] += arr[yitr][xitr];
+        arr[yitr][xitr] = 0;
+        xhead += xdirection;
+        yhead += ydirection;
+        tileMoved = true;
+      }
+      else if(arr[yhead][xhead] !== 0 && (xitr !== xhead + xdirection || yitr !== yhead + ydirection)){
+        //console.log("next to");
+        arr[yhead + ydirection][xhead + xdirection] = arr[yitr][xitr];
+        arr[yitr][xitr] = 0;
+        xhead += xdirection;
+        yhead += ydirection;
+        tileMoved = true;
+      }
+      else if(arr[yhead][xhead] !== 0 && (xitr === xhead + xdirection || yitr === yhead + ydirection)){
+        //console.log("move head");
+        xhead += xdirection;
+        yhead += ydirection;
+      }
+      else{
+        //console.log("move");
+        arr[yhead][xhead] = arr[yitr][xitr];
+        arr[yitr][xitr] = 0;
+        tileMoved = true;
+      }
+    }
+    xitr += xdirection;
+    yitr += ydirection;
+  }
+  return arr;
+}
+
 let shiftRow = ({
   isLeft = false,
   arr = [0, 0]
@@ -108,25 +219,29 @@ document.onkeydown = ({keyCode}) => {
     case 37:
       console.log("Left");
       for(let i = 0; i < numRows; i++){
-        shiftRow({isLeft: true, arr: boardArray[i]});
+        //shiftRow({isLeft: true, arr: boardArray[i]});
+        shift({isLeft: true, isUp: undefined, index: i, arr: boardArray});
       }
       break;
     case 38:
       console.log("Up");
       for(let i = 0; i < numCols; i++){
-        shiftCol({isUp: true, index: i, arr: boardArray});
+        //shiftCol({isUp: true, index: i, arr: boardArray});
+        shift({isLeft: undefined, isUp: true, index: i, arr: boardArray});
       }
       break;
     case 39:
       console.log("Right");
       for(let i = 0; i < numRows; i++){
-        shiftRow({isLeft: false, arr: boardArray[i]});
+        //shiftRow({isLeft: false, arr: boardArray[i]});
+        shift({isLeft: false, isUp: undefined, index: i, arr: boardArray});
       }
       break;
     case 40:
       console.log("Down");
       for(let i = 0; i < numCols; i++){
-        shiftCol({isUp: false, index: i, arr: boardArray});
+        //shiftCol({isUp: false, index: i, arr: boardArray});
+        shift({isLeft: undefined, isUp: false, index: i, arr: boardArray});
       }
       break;
     default:
