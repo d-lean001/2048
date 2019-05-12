@@ -131,116 +131,29 @@ let shift = ({
   return arr;
 }
 
-let shiftRow = ({
-  isLeft = false,
-  arr = [0, 0]
-}) => {
-  //console.log("shifting row");
-  //console.log(arr);
-  let rowLen = arr.length;
-  let head = isLeft ? 0 : rowLen - 1;
-  let end = isLeft ? rowLen : -1;
-  let direction = isLeft ? 1 : -1;
-  let itr = head + direction;
-
-  for(; (itr * direction) < (end * direction); itr += direction){
-    if(arr[itr] !== 0){
-      if(arr[itr] === arr[head]){
-        arr[head] += arr[itr];
-        arr[itr] = 0;
-        head += direction;
-        tileMoved = true;
-      }
-      else if(arr[head] !== 0 && itr !== head + direction){
-        arr[head + direction] = arr[itr];
-        arr[itr] = 0;
-        head += direction;
-        tileMoved = true;
-      }
-      else if(arr[head] !== 0 && itr === head + direction){
-        head += direction;
-      }
-      else if(arr[head] === 0){
-        arr[head] = arr[itr];
-        arr[itr] = 0;
-        tileMoved = true;
-      }
-    }
-
-  }
-  return arr;
-}
-
-let shiftCol = ({
-  isUp = false,
-  index = 0,
-  arr = [
-    [0,0],
-    [0,0]
-  ]
-}) => {
-  //console.log("shifting col");
-  let colLen = arr.length;
-  let head = isUp ? 0 : colLen - 1;
-  let end = isUp ? colLen : -1;
-  let direction = isUp ? 1 : -1;
-  let itr = head + direction;
-
-  for(; (itr * direction) < (end * direction); itr += direction){
-    if(arr[itr][index] !== 0){
-      if(arr[itr][index] === arr[head][index]){
-        arr[head][index] += arr[itr][index];
-        arr[itr][index] = 0;
-        head += direction;
-        tileMoved = true;
-      }
-      else if(arr[head][index] !== 0 && itr !== head + direction){
-        arr[head + direction][index] = arr[itr][index];
-        arr[itr][index] = 0;
-        head += direction;
-        tileMoved = true;
-      }
-      else if(arr[head][index] !== 0 && itr === head + direction){
-        head += direction;
-      }
-      else{
-        arr[head][index] = arr[itr][index];
-        arr[itr][index] = 0;
-        tileMoved = true;
-      }
-    }
-
-  }
-  return arr;
-}
-
 document.onkeydown = ({keyCode}) => {
   switch(keyCode){
     case 37:
       console.log("Left");
       for(let i = 0; i < numRows; i++){
-        //shiftRow({isLeft: true, arr: boardArray[i]});
         shift({isLeft: true, isUp: undefined, index: i, arr: boardArray});
       }
       break;
     case 38:
       console.log("Up");
       for(let i = 0; i < numCols; i++){
-        //shiftCol({isUp: true, index: i, arr: boardArray});
         shift({isLeft: undefined, isUp: true, index: i, arr: boardArray});
       }
       break;
     case 39:
       console.log("Right");
       for(let i = 0; i < numRows; i++){
-        //shiftRow({isLeft: false, arr: boardArray[i]});
         shift({isLeft: false, isUp: undefined, index: i, arr: boardArray});
       }
       break;
     case 40:
       console.log("Down");
       for(let i = 0; i < numCols; i++){
-        //shiftCol({isUp: false, index: i, arr: boardArray});
         shift({isLeft: undefined, isUp: false, index: i, arr: boardArray});
       }
       break;
@@ -263,7 +176,7 @@ document.onkeydown = ({keyCode}) => {
 
 function upButtonPress(){
   for(let i = 0; i < numCols; i++){
-    shiftCol({isUp: true, index: i, arr: boardArray});
+    shift({isLeft: undefined, isUp: true, index: i, arr: boardArray});
   }
   if(tileMoved === true){
     newElement({arr: boardArray});
@@ -275,7 +188,7 @@ function upButtonPress(){
 
 function leftButtonPress(){
   for(let i = 0; i < numRows; i++){
-    shiftRow({isLeft: true, arr: boardArray[i]});
+    shift({isLeft: true, isUp: undefined, index: i, arr: boardArray});
   }
   if(tileMoved === true){
     newElement({arr: boardArray});
@@ -287,7 +200,7 @@ function leftButtonPress(){
 
 function rightButtonPress(){
   for(let i = 0; i < numRows; i++){
-    shiftRow({isLeft: false, arr: boardArray[i]});
+    shift({isLeft: false, isUp: undefined, index: i, arr: boardArray});
   }
   if(tileMoved === true){
     newElement({arr: boardArray});
@@ -299,7 +212,7 @@ function rightButtonPress(){
 
 function downButtonPress(){
   for(let i = 0; i < numCols; i++){
-    shiftCol({isUp: false, index: i, arr: boardArray});
+    shift({isLeft: undefined, isUp: false, index: i, arr: boardArray});
   }
   if(tileMoved === true){
     newElement({arr: boardArray});
